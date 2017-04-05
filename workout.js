@@ -300,14 +300,13 @@ function fulfillmentGen(err, operation, result, response, collection, next) {
             case 'menu':
 
                 var menuResp = {
-                    speech: "Hey There!, here's your Menu : " +
-                    "",
-                    displayText: "Sure, let me jot it down...",
-                    source: "Workout Tracker Service @heroku"
+                    speech: "Hey There!, here's your Menu : \n" + result.name + ", Price : " + result.price,
+                    displayText: "Hey There!, here's your Menu : \n" + result.name + ", Price : " + result.price,
+                    source: "IntelliWaiter Service @heroku"
                 };
 
                 //send the json formatted response to api.ai...
-                response.json(updateResp);
+                response.json(menuResp);
 
                 break;
             case 'insert':
