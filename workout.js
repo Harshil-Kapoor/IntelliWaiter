@@ -510,15 +510,17 @@ function sendMenu(req, res, next) {
                     console.log('Retrieved document '+ result._id +' from "workout" collection.');
 
                     //format the generic template / card response, using the documents fetched from the collection ''
-                    for(key in targetKeys){
-                        var property = targetKeys[key];
-                        target[property] = eval(property);
-                    }
-
+                    // for(key in targetKeys){
+                    //     var property = targetKeys[key];
+                    //     target[property] = eval(property);
+                    // }
+                    //
                     // menuTarget+=item.name+'\n'+item.price+'\n';
+                    
+                    menuItemTarget = {"name" : item.name, "price" : item.price};
 
                     //call the fulfillmentGen callback to prepare fulfillment and return response...
-                    fulfillmentGen(err, 'menu', undefined, response, next);
+                    fulfillmentGen(err, 'menu', menuItemTarget, response, next);
                 }
                 db.close();
             });

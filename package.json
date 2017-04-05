@@ -6,6 +6,9 @@
   },
   "dependencies": {
     "mongodb": "latest",
+    "express": "latest",
+    "path": "latest",
+    "body-parser": "latest",
     "request": "latest"
   }
 }
