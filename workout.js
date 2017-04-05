@@ -12,7 +12,7 @@ var mongodb = require('mongodb');
 //initialize the MongoClient, and specify the connection url...
 var MongoClient = mongodb.MongoClient;
 
-var url = 'mongodb://abcd:123456#@ds149040.mlab.com:49040/intelli-waiter';
+var url = 'mongodb://admin:123456#@ds149040.mlab.com:49040/intelli-waiter';
 
 //initialize the express app...
 var app = express();
