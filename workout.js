@@ -528,7 +528,7 @@ function sendMenu(req, res, next) {
         }
     });
 
-    fulfillmentGen(err, 'menu', undefined, response, next);
+    // fulfillmentGen(err, 'menu', undefined, response, next);
 
     next();
 }
