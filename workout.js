@@ -508,7 +508,7 @@ function sendMenu(req, res, next) {
                     //call the fulfillmentGen callback to prepare fulfillment and return response...
                     // fulfillmentGen(err, 'retrieve', undefined, response, next);
                 } else {
-                    console.log('Retrieved document '+ result._id +' from "workout" collection.');
+                    console.log('Retrieved document '+ item._id +' from "workout" collection.');
 
                     //format the generic template / card response, using the documents fetched from the collection ''
                     // for(key in targetKeys){
