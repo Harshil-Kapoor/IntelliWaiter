@@ -476,7 +476,7 @@ function sendMenu(req, res, next) {
     var menuTarget=[];
 
     response =res;
-    reqCollection = req.collection;
+    reqCollection = req.body.result.parameters.collection;
 
     //call connect() with appropriate arguements...
     // var DBResult = connect('retrieve', target);
