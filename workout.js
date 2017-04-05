@@ -67,7 +67,7 @@ function backWebhook(req, res, next) {
 };
 
 //the callback for connecting to mongoDB, will be called by any of the callbacks...
-function connect(operation, data, callback, collection, next) {
+function connect(operation, data, callback, reqCollection, next) {
     
     MongoClient.connect(url, function (err, db) {
         if (err){
@@ -77,7 +77,7 @@ function connect(operation, data, callback, collection, next) {
         }else{
             console.log("Successfully connected to database...");
 
-            var collection = db.collection(collection.toString());
+            var collection = db.collection(reqCollection);
 
             // var user1 = {name: 'modulus admin', age: 42, roles: ['admin', 'moderator', 'user']};
             // var user2 = {name: 'modulus user', age: 22, roles: ['user']};
@@ -88,7 +88,7 @@ function connect(operation, data, callback, collection, next) {
 
                 //mongoDB logic for document insertion...
                 case 'insert' :
-                    collection.insertOne(data, function (err, result) {
+                    Collection.insertOne(data, function (err, result) {
                         if (err) {
                             console.log('______insertion error______');
                             console.log(err);
@@ -113,7 +113,7 @@ function connect(operation, data, callback, collection, next) {
                     //dynamically setting the query for fetching order & menu documents...
                     var query;
                     //fetching only active orders from the orders collection...
-                    if(collection = 'orders')   query = {uIdentity : data.uIdentity, status : 1};
+                    if(reqCollection = 'orders')   query = {uIdentity : data.uIdentity, status : 1};
                     else                        query = {uIdentity : data.uIdentity};
 
                     collection.findOne(query, function (err, result) {
@@ -126,7 +126,7 @@ function connect(operation, data, callback, collection, next) {
                             //or the recordUpdate callback...
                             if(typeof callback === 'function'){
                                 //status : 1 means the order is active, i.e. current order...
-                                if(collection = 'orders')   callback(err, operation, {insert : 1}, response, next);
+                                if(reqCollection = 'orders')   callback(err, operation, {insert : 1}, response, next);
                                 else                        callback(err, operation, undefined, response, next);
                             }
                         } else {
