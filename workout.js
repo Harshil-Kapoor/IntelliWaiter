@@ -77,7 +77,7 @@ function connect(operation, data, callback, collection, next) {
         }else{
             console.log("Successfully connected to database...");
 
-            var collection = db.collection(collection);
+            var collection = db.collection(collection.toString());
 
             // var user1 = {name: 'modulus admin', age: 42, roles: ['admin', 'moderator', 'user']};
             // var user2 = {name: 'modulus user', age: 22, roles: ['user']};
