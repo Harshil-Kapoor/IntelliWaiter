@@ -18,7 +18,7 @@ var url = 'mongodb://admin:123456@ds149040.mlab.com:49040/intelli-waiter';
 var app = express();
 
 
-var port = process.env.PORT;
+var port = process.env.PORT || 8000;
 app.set('port', port);
 
 var server = http.createServer(app);
@@ -476,7 +476,7 @@ function sendMenu(req, res, next) {
     var menuTarget=[];
 
     response =res;
-    collection = req.collection;
+    reqCollection = req.collection;
 
     //call connect() with appropriate arguements...
     // var DBResult = connect('retrieve', target);
@@ -494,7 +494,7 @@ function sendMenu(req, res, next) {
         }else{
             console.log("Successfully connected to database...");
 
-            var collection = db.collection(collection);
+            var collection = db.collection(reqCollection);
 
             var query;
             //fetching only active orders from the orders collection...
