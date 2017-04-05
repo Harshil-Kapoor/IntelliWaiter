@@ -70,7 +70,7 @@ function backWebhook(req, res, next) {
 function connect(operation, data, callback, reqCollection, next) {
     
     MongoClient.connect(url, function (err, db) {
-        if (err){
+        if (err || reqCollection == undefined){
             console.log("Error connecting to database : ",err);
 
             return true;
@@ -375,6 +375,7 @@ function updateStarter(req, res, next) {
 
     response = res;
     // collection = 'starters';
+    collection = 'orders';
 
     //call connect() with appropriate arguements...
     // var DBResult = connect('insert', target);
@@ -387,7 +388,7 @@ function updateStarter(req, res, next) {
     var retTarget = {uIdentity: uIdentity};
 
     // connect('retrieve', retTarget, recordUpdate, collection, next);
-    connect('retrieve', retTarget, recordUpdate, next);
+    connect('retrieve', retTarget, recordUpdate, collection, next);
 
     next();
 }
