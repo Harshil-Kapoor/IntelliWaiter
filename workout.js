@@ -487,7 +487,7 @@ function sendMenu(req, res, next) {
     // else                       console.log(DBResult + ' @show_status');
 
     MongoClient.connect(url, function (err, db) {
-        if (err){
+        if (err || reqCollection == undefined){
             console.log("Error connecting to database : ",err);
 
             return true;
