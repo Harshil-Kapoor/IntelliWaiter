@@ -333,7 +333,8 @@ function fulfillmentGen(err, operation, result, response, collection, next) {
             // }
 
                 //send the json formatted response to api.ai...
-                response.status(200).json(menuResp, console.log("MenuResp sent as : "+menuResp));
+                console.log("MenuResp sent as : "+menuResp);
+                response.status(200).json(menuResp);
 
                 break;
             case 'insert':
