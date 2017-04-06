@@ -88,7 +88,7 @@ function connect(operation, data, callback, reqCollection, next) {
 
                 //mongoDB logic for document insertion...
                 case 'insert' :
-                    Collection.insertOne(data, function (err, result) {
+                    collection.insertOne(data, function (err, result) {
                         if (err) {
                             console.log('______insertion error______');
                             console.log(err);
@@ -499,6 +499,7 @@ function sendMenu(req, res, next) {
 
     response =res;
     reqCollection = req.body.result.parameters.collection;
+    console.log("reqCollection received as : " + reqCollection);
 
     //call connect() with appropriate arguements...
     // var DBResult = connect('retrieve', target);
@@ -514,12 +515,9 @@ function sendMenu(req, res, next) {
 
             return true;
         }else{
-            console.log("Successfully connected to database...");
+            console.log("Successfully connected to database @ sendMenu...");
 
             var collection = db.collection(reqCollection);
-
-            var query;
-            //fetching only active orders from the orders collection...
 
             var cursor = collection.find({}, {"_id":false, "name":true, "price":true});
             cursor.each(function (err, item) {
@@ -529,7 +527,9 @@ function sendMenu(req, res, next) {
 
                     //call the fulfillmentGen callback to prepare fulfillment and return response...
                     // fulfillmentGen(err, 'retrieve', undefined, response, next);
-                } else if(item != null){
+                } else if(item == null) {
+                    console.log("null document retrieved as 'item'...");
+                }else{
                     console.log('Retrieved document '+ item._id +' from "workout" collection.');
 
                     //format the generic template / card response, using the documents fetched from the collection ''
