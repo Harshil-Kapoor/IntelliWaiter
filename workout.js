@@ -300,9 +300,13 @@ function fulfillmentGen(err, operation, result, response, collection, next) {
             case 'menu':
                 console.log("Entered 'menu' case for fulfillmentGen");
 
+                var name = result.name, price = result.price;
+
+                console.log("Received data : name : " + name + ", price : " + price);
+
                 var menuResp = {
-                    speech: "Hey There!, here's your Menu : \n" + result.name + ", Price : " + result.price,
-                    displayText: "Hey There!, here's your Menu : \n" + result.name + ", Price : " + result.price,
+                    speech: "Hey There!, here's your Menu : \n" + name + ", Price : " + price,
+                    displayText: "Hey There!, here's your Menu : \n" + name + ", Price : " + price,
                     source: "IntelliWaiter Service @heroku"
                 };
 
@@ -495,7 +499,7 @@ function updateSupplement(req, res, next) {
 
 // get menu to be sent to the user...
 function sendMenu(req, res, next) {
-    var menuTarget='', name='', price;
+    var menuTarget=[], name='', price;
 
     response =res;
     reqCollection = req.body.result.parameters.collection;
@@ -527,8 +531,8 @@ function sendMenu(req, res, next) {
 
                     //call the fulfillmentGen callback to prepare fulfillment and return response...
                     // fulfillmentGen(err, 'retrieve', undefined, response, next);
-                } else if(item == null) {
-                    console.log("null document retrieved as 'item'...");
+                } else if(item == null || item == undefined) {
+                    console.log(item + " document retrieved as 'item'...");
                 }else{
                     console.log('Retrieved document '+ item._id +' from "workout" collection.');
                     name = item.name;
