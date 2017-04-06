@@ -298,6 +298,7 @@ function fulfillmentGen(err, operation, result, response, collection, next) {
         //format fulfillment response according to the 'operation' field in the function scope (closure)...
         switch (operation){
             case 'menu':
+                console.log("Entered 'menu' case for fulfillmentGen");
 
                 var menuResp = {
                     speech: "Hey There!, here's your Menu : \n" + result.name + ", Price : " + result.price,
@@ -305,8 +306,30 @@ function fulfillmentGen(err, operation, result, response, collection, next) {
                     source: "IntelliWaiter Service @heroku"
                 };
 
+            // function sendFBMessage(sender, messageData, callback) {
+            //     request({
+            //         url: 'https://graph.facebook.com/v2.6/me/messages',
+            //         qs: {access_token: FB_PAGE_ACCESS_TOKEN},
+            //         method: 'POST',
+            //         json: {
+            //             recipient: {id: uIdentity},
+            //             message: menuResp
+            //         }
+            //     }, function (error, response, body) {
+            //         if (error) {
+            //             console.log('Error sending message: ', error);
+            //         } else if (response.body.error) {
+            //             console.log('Error: ', response.body.error);
+            //         }
+            //
+            //         if (callback) {
+            //             callback();
+            //         }
+            //     });
+            // }
+
                 //send the json formatted response to api.ai...
-                response.json(menuResp);
+                response.json(menuResp, console.log("MenuResp sent as : "+menuResp));
 
                 break;
             case 'insert':
