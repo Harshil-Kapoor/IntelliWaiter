@@ -15,7 +15,7 @@ MongoClient.connect(url, function (err, db) {
     }else{
         console.log("Successfully connected to database...");
 
-        var collection = db.collection('dishes');
+        var collection = db.collection('starters');
 
 
         // collection.find({}, {"_id":false, "name":true, "price":true}).toArray(function (err, results) {
@@ -24,38 +24,42 @@ MongoClient.connect(url, function (err, db) {
         // });
 
         var cursor = collection.find({}, {"_id":false, "name":true, "price":true});
-        async.waterfall([
+        // async.waterfall([
             cursor.each(function (err, item) {
                 if (err) {
                     // console.log('______retrieval error______');
                     console.log(err);
                 } else {
                     // console.log('Retrieved document '+ result._id +' from "workout" collection.');
-                    if(item != null)    {name=item.name;price=item.price;}
+                    if (item != null) {
+                        name = item.name;
+                        price = item.price;
+                    }
                     // console.log(name+'\n'+price+'\n');
 
                     //format the generic template / card response, using the documents fetched from the collection ''
-                    // console.log(name+'\n');
+                    console.log(name+'\n');
                     // menuTarget = menuTarget + name;
                     // menuTarget = menuTarget + name +'\n'+price+'\n';
-                    menuTarget += (name +'\n' +price+'\n');
+                    // menuTarget += (name + '\n' + price + '\n');
                     // console.log(menuTarget);
                 }
-
-                // console.log(cursor);
-                // async.each(cursor, function (item, callback) {
-                //     if(item != null)    console.log(item.name+'\n');
-                //     // if(item != null)    menuTarget += (item.name + '\n' + item.price+ '\n');
-                //     callback();
-                // }, function (err) {
+                //
+                //         // console.log(cursor);
+                //         // async.each(cursor, function (item, callback) {
+                //         //     if(item != null)    console.log(item.name+'\n');
+                //         //     // if(item != null)    menuTarget += (item.name + '\n' + item.price+ '\n');
+                //         //     callback();
+                //         // }, function (err) {
+                //         //     if(err) console.log(err);
+                //         //     else    console.log("menuTarget : "+ menuTarget);
+                //         // });
+                //     }, callback(null, menuTarget)),
+                //     printInfo(menuTarget, callback(null))
+                // ], function (err, result) {
                 //     if(err) console.log(err);
-                //     else    console.log("menuTarget : "+ menuTarget);
                 // });
-            }, callback(null, menuTarget)), 
-            printInfo(menuTarget, callback(null))
-        ], function (err, result) {
-            if(err) console.log(err);
-        });
+            });
         db.close();
 
         // console.log("menuTarget : "+menuTarget);
