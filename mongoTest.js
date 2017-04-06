@@ -15,7 +15,7 @@ MongoClient.connect(url, function (err, db) {
     }else{
         console.log("Successfully connected to database...");
 
-        var collection = db.collection('starters');
+        var collection = db.collection('supplements');
 
 
         // collection.find({}, {"_id":false, "name":true, "price":true}).toArray(function (err, results) {
@@ -38,7 +38,7 @@ MongoClient.connect(url, function (err, db) {
                     // console.log(name+'\n'+price+'\n');
 
                     //format the generic template / card response, using the documents fetched from the collection ''
-                    console.log(name+'\n');
+                    console.log(name+'\t'+price);
                     // menuTarget = menuTarget + name;
                     // menuTarget = menuTarget + name +'\n'+price+'\n';
                     // menuTarget += (name + '\n' + price + '\n');
