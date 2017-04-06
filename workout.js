@@ -495,7 +495,7 @@ function updateSupplement(req, res, next) {
 
 // get menu to be sent to the user...
 function sendMenu(req, res, next) {
-    var menuTarget=[];
+    var menuTarget='', name='', price;
 
     response =res;
     reqCollection = req.body.result.parameters.collection;
@@ -531,6 +531,9 @@ function sendMenu(req, res, next) {
                     console.log("null document retrieved as 'item'...");
                 }else{
                     console.log('Retrieved document '+ item._id +' from "workout" collection.');
+                    name = item.name;
+                    price = item.price;
+                    console.log(name+'\n');
 
                     //format the generic template / card response, using the documents fetched from the collection ''
                     // for(key in targetKeys){
@@ -540,7 +543,7 @@ function sendMenu(req, res, next) {
                     //
                     // menuTarget+=item.name+'\n'+item.price+'\n';
                     
-                    menuItemTarget = {"name" : item.name, "price" : item.price};
+                    menuItemTarget = {"name" : name, "price" : price};
 
                     //call the fulfillmentGen callback to prepare fulfillment and return response...
                     fulfillmentGen(err, 'menu', menuItemTarget, response, next);
