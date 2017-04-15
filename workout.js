@@ -129,8 +129,8 @@ function connect(operation, data, callback, reqCollection, next) {
                             //     if(reqCollection = 'orders')   callback(err, operation, {insert : 1}, response, next);
                             //     else                        callback(err, operation, undefined, response, next);
                             // }
-                        } else if(item == null || item == undefined) {
-                            console.log(item + " document retrieved as 'item'...");
+                        } else if(result == null || result == undefined) {
+                            console.log(result + " document retrieved as 'item'...");
                             if(typeof callback === 'function'){
                                 //status : 1 means the order is active, i.e. current order...
                                 if(reqCollection = 'orders')   callback(err, operation, {insert : 1}, response, next);
