@@ -174,7 +174,7 @@ function connect(operation, data, callback, reqCollection, next) {
         }
     });
 
-    next();
+    if(typeof next === 'function')  next();
 }
 
 // //targetCreator for creating json target...
