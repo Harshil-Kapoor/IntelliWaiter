@@ -204,6 +204,7 @@ function recordUpdate(err, operation, findRes, response, collection, next) {
     if(err){
         //check if a new order has to be created, => no order found in collection 'orders'...
         if(findRes.insert = 1){
+            console.log("Inserting new document into 'orders'...");
 
             //set the target variables as received in request from FBM...
             starter = reqStarter;
@@ -280,7 +281,7 @@ function recordUpdate(err, operation, findRes, response, collection, next) {
         connect('update', target, fulfillmentGen, 'orders', next);
     }
 
-    next();
+    if(typeof next === 'function')  next();
 }
 
 //response generation callback...
