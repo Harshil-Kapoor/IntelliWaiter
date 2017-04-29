@@ -40,7 +40,7 @@ MongoClient.connect(url, function (err, db) {
                     //format the generic template / card response, using the documents fetched from the collection ''
                     console.log(name+'\t'+price);
                     // menuTarget = menuTarget + name;
-                    // menuTarget = menuTarget + name +'\n'+price+'\n';
+                    menuTarget = menuTarget + name +' : '+price+'\n';
                     // menuTarget += (name + '\n' + price + '\n');
                     // console.log(menuTarget);
                 }
