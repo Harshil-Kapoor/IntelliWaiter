@@ -23,9 +23,9 @@ var app = express();
 var port = process.env.PORT || 8000;
 app.set('port', port);
 
-var server = http.createServer(app);
-
-server.listen(port);
+// var server = http.createServer(app);
+//
+// server.listen(port);
 
 
 //declare the commom variables...
