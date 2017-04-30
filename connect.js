@@ -18,6 +18,8 @@ function connect(config, DB) {
 
     var collection = DB.collection(reqCollection);
 
+    console.log("Connection object : " + JSON.stringify(collection));
+
     // var user1 = {name: 'modulus admin', age: 42, roles: ['admin', 'moderator', 'user']};
     // var user2 = {name: 'modulus user', age: 22, roles: ['user']};
     // var user3 = {name: 'modulus super admin', age: 92, roles: ['super-admin', 'admin', 'moderator', 'user']};
@@ -27,6 +29,7 @@ function connect(config, DB) {
 
         //mongoDB logic for document insertion...
         case 'insert' :
+            console.log("Entered connect with config params : " + JSON.stringify(config));
 
             return (callback) => {
                 collection.insert(query, function (err, result) {
