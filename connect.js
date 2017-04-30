@@ -7,12 +7,13 @@ module.exports = connect;
 var operation, query, projection, data, reqCollection;
 
 function connect(config, DB) {
-
     operation = config.operation;
     query = config.query;
     projection = config.projection;
     data = config.data;
     reqCollection = config.reqCollection;
+
+    console.log("Entered connect with operation : " + operation + ", and query : " + query);
 
     var collection = DB.collection(reqCollection);
 
@@ -27,7 +28,7 @@ function connect(config, DB) {
         case 'insert' :
 
             return (callback) => {
-                collection.insertOne(query, function (err, result) {
+                collection.insert(query, function (err, result) {
                     if (err) {
                         console.log('______insertion error______');
                         console.log(err);
