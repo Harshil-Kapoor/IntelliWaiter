@@ -61,11 +61,7 @@ function backWebhook(req, res) {
     else if (action == 'updateDessert')      updateDessert(req, res);
     else if (action == 'updateSupplement')   updateSupplement(req, res);
     else if (action == 'sendBill')           sendBill(req, res);
-    // else if (action == 'get_target')   get_target(req, res);
-    // else
-
-    next();
-};
+}
 
 let DB;
 MongoClient.connect(url, (err, db) => {
@@ -89,7 +85,7 @@ function retrOrderWrapper(retTarget, data, projection) {
         },
         reqCollection : 'order'
     };
-    return  connect(config);
+    return  connect(config, DB);
 }
 
 function retrPriceWrapper(retTarget, data, collection) {
@@ -99,7 +95,7 @@ function retrPriceWrapper(retTarget, data, collection) {
         data : data,
         reqCollection : collection
     };
-    return  connect(config);
+    return  connect(config, DB);
 }
 
 function insertWrapper(retTarget, data) {
@@ -109,7 +105,7 @@ function insertWrapper(retTarget, data) {
         data : data,
         collection : 'order'
     };
-    return  connect(config);
+    return  connect(config, DB);
 }
 
 function updateWrapper(retTarget, data) {
@@ -119,7 +115,7 @@ function updateWrapper(retTarget, data) {
         data : data,
         collection : 'order'
     };
-    return  connect(config);
+    return  connect(config, DB);
 }
 
 // //targetCreator for creating json target...
@@ -168,7 +164,7 @@ function recordUpdate(data, collection) {
             reqCollection: 'orders'
         };
 
-        return connect(config);
+        return connect(config, DB);
     } else {
         console.log("Found a document in 'orders'...");
 
@@ -395,8 +391,6 @@ function updateDish(req, res) {
     var retTarget = {uIdentity: uIdentity};
 
     connect('retrieve', retTarget, recordUpdate, collection);
-
-    next();
 }
 
 // set dessert as provided by the user...
@@ -422,7 +416,7 @@ function updateDessert(req, res) {
 
     connect('retrieve', retTarget, recordUpdate, collection);
 
-    next();
+    
 }
 
 // set supplement as provided by the user...
@@ -447,8 +441,6 @@ function updateSupplement(req, res) {
     var retTarget = {uIdentity: uIdentity};
 
     connect('retrieve', retTarget, recordUpdate, collection);
-
-    next();
 }
 
 // get menu to be sent to the user...
@@ -510,10 +502,6 @@ function sendMenu(req, res) {
             });
         }
     });
-
-    // fulfillmentGen(err, 'menu', undefined, response);
-
-    next();
 }
 
 // get bill to be sent to the user...
@@ -530,8 +518,6 @@ function sendBill(req, res) {
 
     // if(DBResult == undefined)  console.log('----------Error in either MongoDB connection, or operations----------');
     // else                       console.log(DBResult + ' @show_status');
-
-    next();
 }
 
 // function record(req, res) {
@@ -574,5 +560,5 @@ function sendBill(req, res) {
 //     // if(DBResult == undefined)  console.log('----------Error in either MongoDB connection, or operations----------');
 //     // else                       console.log(DBResult + ' @record');
 //
-//     next();
+//     
 // }

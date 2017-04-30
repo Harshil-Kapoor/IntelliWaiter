@@ -6,7 +6,7 @@ module.exports = connect;
 
 var operation, query, projection, data, reqCollection;
 
-function connect(config) {
+function connect(config, DB) {
 
     operation = config.operation;
     query = config.query;
