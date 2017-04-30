@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f779144e-d3f6-4a8b-b05e-5876ebe6a254" name="Default" comment="testing mongoTest&#10;">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/connect.js" afterPath="$PROJECT_DIR$/connect.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/intelliWaiter.js" afterPath="$PROJECT_DIR$/intelliWaiter.js" />
     </list>
     <ignored path="IntelliWaiter.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,14 +26,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="connect.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/connect.js">
+      <file leaf-file-name="intelliWaiter.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/intelliWaiter.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#44#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="277">
+              <caret line="364" column="46" selection-start-line="364" selection-start-column="46" selection-end-line="364" selection-end-column="46" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -61,8 +59,8 @@
         <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/mongoTest.js" />
         <option value="$PROJECT_DIR$/test.js" />
-        <option value="$PROJECT_DIR$/intelliWaiter.js" />
         <option value="$PROJECT_DIR$/connect.js" />
+        <option value="$PROJECT_DIR$/intelliWaiter.js" />
       </list>
     </option>
   </component>
@@ -248,12 +246,12 @@
       <workItem from="1493460623258" duration="18664000" />
       <workItem from="1493526124731" duration="2484000" />
       <workItem from="1493537998447" duration="1536000" />
-      <workItem from="1493541919720" duration="19648000" />
+      <workItem from="1493541919720" duration="19887000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="114577000" />
+    <option name="totallyTimeSpent" value="114816000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1366" height="768" extended-state="6" />
@@ -711,86 +709,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/intelliWaiter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="767">
-          <caret line="43" column="16" selection-start-line="43" selection-start-column="16" selection-end-line="43" selection-end-column="16" />
-          <folding>
-            <marker date="1493565412054" expanded="true" signature="0:42" placeholder="/** Created by Harshil on 6/6/2016. ...*/" />
-            <marker date="1493565412054" expanded="true" signature="609:675" placeholder="//..." />
-            <marker date="1493565412054" expanded="true" signature="728:898" placeholder="//..." />
-            <marker date="1493565412054" expanded="true" signature="1378:2036" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="2084:2281" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="2098:2158" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="2162:2279" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="2340:2613" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="2359:2577" placeholder="{&quot;operation&quot;: 'retrieve'...}" />
-            <marker date="1493565412054" expanded="true" signature="2468:2538" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="2670:2847" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="2689:2811" placeholder="{&quot;operation&quot;: 'retrieve'...}" />
-            <marker date="1493565412054" expanded="true" signature="2889:3060" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="2908:3024" placeholder="{&quot;operation&quot;: 'retrieve'...}" />
-            <marker date="1493565412054" expanded="true" signature="3102:3273" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="3121:3237" placeholder="{&quot;operation&quot;: 'retrieve'...}" />
-            <marker date="1493565412054" expanded="true" signature="3275:3801" placeholder="//..." />
-            <marker date="1493565412054" expanded="true" signature="3882:5842" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="4067:4739" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="4277:4414" placeholder="//..." />
-            <marker date="1493565412054" expanded="true" signature="4447:4537" placeholder="[...]" />
-            <marker date="1493565412054" expanded="true" signature="4448:4536" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="4561:4695" placeholder="{&quot;operation&quot;: 'insert'...}" />
-            <marker date="1493565412054" expanded="true" signature="4745:5840" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="5049:5226" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="5093:5216" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="5247:5571" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="5278:5372" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="5442:5561" placeholder="//..." />
-            <marker date="1493565412054" expanded="true" signature="5628:5797" placeholder="{&quot;operation&quot;: 'update'...}" />
-            <marker date="1493565412054" expanded="true" signature="5844:5952" placeholder="//..." />
-            <marker date="1493565412054" expanded="true" signature="5993:10989" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="6085:6503" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="6145:6407" placeholder="{&quot;speech&quot;: &quot;Sorry, I can't find the details, give it another try...&quot;...}" />
-            <marker date="1493565412054" expanded="true" signature="6507:10987" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="6592:6790" placeholder="{&quot;source&quot;: &quot;IntelliWaiter Service @heroku&quot;...}" />
-            <marker date="1493565412054" expanded="true" signature="6890:10980" placeholder="//..." />
-            <marker date="1493565412054" expanded="true" signature="11066:12022" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="11929:12018" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="12093:12816" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="12362:12458" placeholder="//..." />
-            <marker date="1493565412054" expanded="true" signature="12517:12706" placeholder="//..." />
-            <marker date="1493565412054" expanded="true" signature="12893:13648" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="13188:13284" placeholder="//..." />
-            <marker date="1493565412054" expanded="true" signature="13343:13532" placeholder="//..." />
-            <marker date="1493565412054" expanded="true" signature="13731:14507" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="14053:14149" placeholder="//..." />
-            <marker date="1493565412054" expanded="true" signature="14208:14397" placeholder="//..." />
-            <marker date="1493565412054" expanded="true" signature="14575:17023" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="14765:14863" placeholder="//..." />
-            <marker date="1493565412054" expanded="true" signature="14934:15124" placeholder="//..." />
-            <marker date="1493565412054" expanded="true" signature="15174:17019" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="15222:15323" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="15327:17013" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="15600:17001" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="15627:15927" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="15752:15909" placeholder="//..." />
-            <marker date="1493565412054" expanded="true" signature="15971:16066" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="16070:16959" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="16312:16692" placeholder="//..." />
-            <marker date="1493565412054" expanded="true" signature="17091:17570" placeholder="{...}" />
-            <marker date="1493565412054" expanded="true" signature="17216:17314" placeholder="//..." />
-            <marker date="1493565412054" expanded="true" signature="17378:17568" placeholder="//..." />
-            <marker date="1493565412054" expanded="true" signature="17572:18994" placeholder="//..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/connect.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="462">
           <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
           <folding>
-            <element signature="e#0#44#0" expanded="false" />
+            <marker date="1493565518480" expanded="false" signature="0:44" placeholder="/** Created by Harshil on 29-04-2017. ...*/" />
+            <marker date="1493565518480" expanded="true" signature="241:5630" placeholder="{...}" />
+            <marker date="1493565518480" expanded="true" signature="727:996" placeholder="//..." />
+            <marker date="1493565518480" expanded="true" signature="1107:5628" placeholder="{...}" />
+            <marker date="1493565518480" expanded="true" signature="1266:2415" placeholder="{...}" />
+            <marker date="1493565518480" expanded="true" signature="1412:2399" placeholder="{...}" />
+            <marker date="1493565518480" expanded="true" signature="1443:1891" placeholder="{...}" />
+            <marker date="1493565518480" expanded="true" signature="1580:1869" placeholder="//..." />
+            <marker date="1493565518480" expanded="true" signature="1897:2381" placeholder="{...}" />
+            <marker date="1493565518480" expanded="true" signature="2106:2359" placeholder="//..." />
+            <marker date="1493565518480" expanded="true" signature="2528:4327" placeholder="{...}" />
+            <marker date="1493565518480" expanded="true" signature="2546:3001" placeholder="//..." />
+            <marker date="1493565518480" expanded="true" signature="3079:4311" placeholder="{...}" />
+            <marker date="1493565518480" expanded="true" signature="3110:3298" placeholder="{...}" />
+            <marker date="1493565518480" expanded="true" signature="3328:3710" placeholder="{...}" />
+            <marker date="1493565518480" expanded="true" signature="3535:3660" placeholder="{...}" />
+            <marker date="1493565518480" expanded="true" signature="3716:4293" placeholder="{...}" />
+            <marker date="1493565518480" expanded="true" signature="3968:4271" placeholder="//..." />
+            <marker date="1493565518480" expanded="true" signature="4437:5621" placeholder="{...}" />
+            <marker date="1493565518480" expanded="true" signature="4724:5605" placeholder="{...}" />
+            <marker date="1493565518480" expanded="true" signature="4759:5184" placeholder="{...}" />
+            <marker date="1493565518480" expanded="true" signature="4908:5158" placeholder="//..." />
+            <marker date="1493565518480" expanded="true" signature="5190:5583" placeholder="{...}" />
+            <marker date="1493565518480" expanded="true" signature="5356:5557" placeholder="//..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/intelliWaiter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="364" column="46" selection-start-line="364" selection-start-column="46" selection-end-line="364" selection-end-column="46" />
+          <folding />
         </state>
       </provider>
     </entry>
