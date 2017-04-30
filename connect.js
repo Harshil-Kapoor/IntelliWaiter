@@ -13,7 +13,8 @@ function connect(config, DB) {
     data = config.data;
     reqCollection = config.reqCollection;
 
-    console.log("Entered connect with operation : " + operation + ", and query : " + query);
+    // console.log("Entered connect with operation : " + operation + ", and query : " + query.toString());
+    console.log("Entered connect with config params : " + config.toString());
 
     var collection = DB.collection(reqCollection);
 
