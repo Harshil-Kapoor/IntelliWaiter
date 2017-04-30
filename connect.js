@@ -29,9 +29,11 @@ function connect(config, DB) {
 
         //mongoDB logic for document insertion...
         case 'insert' :
-            console.log("Entered connect with config params : " + JSON.stringify(config));
+            console.log("Entered 'insert'...");
 
             return (callback) => {
+                console.log("Entered 'insert' callback...");
+
                 DB.collection(reqCollection).insert(query, function (err, result) {
                     if (err) {
                         console.log('______insertion error______');
