@@ -218,20 +218,20 @@ function recordUpdate(data, collection, callback) {
 function fulfillmentGen(data, response) {
 
     //check if error is generated, or we have the response...
-    if(result == undefined){
-
-        //format error response...
-        var errResp = {
-            speech: "Sorry, I can't find the details, give it another try...",
-            displayText: "Sorry, I can't find the details, give it another try...",
-            source: "Workout Tracker Service @heroku",
-
-            status: "not found"
-        };
-
-        //send the json formatted response to api.ai...
-        response.json(errResp);
-    }else{
+    // if(result == undefined){
+    //
+    //     //format error response...
+    //     var errResp = {
+    //         speech: "Sorry, I can't find the details, give it another try...",
+    //         displayText: "Sorry, I can't find the details, give it another try...",
+    //         source: "Workout Tracker Service @heroku",
+    //
+    //         status: "not found"
+    //     };
+    //
+    //     //send the json formatted response to api.ai...
+    //     response.json(errResp);
+    // }else{
 
         var name = data.data.name, count = data.data.count;
         var insResp = {
@@ -339,7 +339,7 @@ function fulfillmentGen(data, response) {
         //         break;
         // }
 
-    }
+    // }
 }
 
 // set starter as provided by the user...
