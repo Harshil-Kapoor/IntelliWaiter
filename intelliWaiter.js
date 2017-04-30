@@ -53,6 +53,7 @@ function backWebhook(req, res) {
 
     var action = req.body.result.action;
     uIdentity = req.body.result.parameters.uIdentity;
+    uIdentity = "Harshil Kapoor";
 
     //redirect to appropriate callbacks acc. to the request action...
     if (action == 'sendMenu')                sendMenu(req, res);
@@ -153,8 +154,8 @@ function recordUpdate(data, collection) {
         // targetIns[collection] = data.name;
         // targetIns[collection + 'Count'] = data.count;
         targetIns[collection] = [{
-            name : data.data.name,
-            count : data.data.count
+            name : data.data.name[0],
+            count : data.data.count[0]
         }];
 
         var config = {
