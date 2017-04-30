@@ -193,7 +193,7 @@ function recordUpdate(data, collection, callback) {
                 name : data.data.name,
                 count : data.data.count
             });
-            targetUpd[eval(collection)] = data.result;
+            targetUpd[collection] = data.result;
             // targetUpd = {
             //     name : data.data.name,
             //     count : data.data.count
