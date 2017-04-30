@@ -32,7 +32,7 @@ function connect(config, DB) {
             console.log("Entered connect with config params : " + JSON.stringify(config));
 
             return (callback) => {
-                collection.insert(query, function (err, result) {
+                DB.collection(reqCollection).insert(query, function (err, result) {
                     if (err) {
                         console.log('______insertion error______');
                         console.log(err);
