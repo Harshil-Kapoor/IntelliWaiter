@@ -2,13 +2,14 @@
   "name": "IntelliWaiter",
   "version": "0.0.1",
   "scripts": {
-    "start": "node workout"
+    "start": "node intelliWaiter"
   },
   "dependencies": {
     "mongodb": "latest",
     "express": "latest",
     "path": "latest",
     "body-parser": "latest",
-    "request": "latest"
+    "request": "latest",
+    "async": "latest"
   }
 }

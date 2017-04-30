@@ -1,1 +1,1 @@
-web: node workout.js
+web: node intelliWaiter.js

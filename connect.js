@@ -4,10 +4,13 @@
 //the callback for connecting to mongoDB, will be called by any of the callbacks...
 module.exports = connect;
 
+var operation, query, projection, data, reqCollection;
+
 function connect(config) {
 
     operation = config.operation;
     query = config.query;
+    projection = config.projection;
     data = config.data;
     reqCollection = config.reqCollection;
 
@@ -29,14 +32,15 @@ function connect(config) {
                         console.log('______insertion error______');
                         console.log(err);
 
-                        callback(null, err);
+                        // callback(null, err);
                         // // return undefined
                         // //call the fulfillmentGen callback to prepare fulfillment and return response...
                         // if (typeof callback === 'function')  callback(err, operation, undefined, response);
                     } else {
                         console.log('Inserted a document into "workout" collection.');
 
-                        callback(null, data, result);
+                        data['result'] = result;
+                        callback(null, data);
                         // // return result.insertedId;
                         // //call the fulfillmentGen callback to prepare fulfillment and return response...
                         // if (typeof callback === 'function')  callback(undefined, operation, result, response);
@@ -51,22 +55,25 @@ function connect(config) {
                 //                     var result = collection.findOne({uIdentity : query.uIdentity});
                 //
                 //dynamically setting the query for fetching order & menu documents...
-                var query;
-                //fetching only active orders from the orders collection...
-                if (reqCollection = 'orders')   query = {uIdentity: query.uIdentity, status: 1};
-                else                        query = {uIdentity: query.uIdentity};
+                // var fQuery;
+                // //fetching only active orders from the orders collection...
+                // if (reqCollection = 'orders')   fQuery = query;
+                // else                        fQuery = {uIdentity: query.uIdentity};
 
-                collection.findOne(query).toArray((err, result) => {
+                collection.findOne(query, projection).toArray((err, result) => {
                     if (err) {
                         console.log('______retrieval error______');
                         console.log(err);
 
-                        callback(null, err);
+                        // callback(null, {err : 1});
                     } else if (result.length == 0) {
                         console.log("No document retrieved...");
+
                         //status : 1 means the order is active, i.e. current order...
-                        if (reqCollection = 'orders')   callback(null, {insert: 1});
-                        else                            callback(null, undefined);
+                        if (reqCollection = 'orders'){
+                            data['insert'] = 1;
+                            callback(null, data);
+                        }else   callback(null, data);
                     } else {
                         console.log('Retrieved document ' + result._id + ' from "workout" collection.');
 
@@ -87,14 +94,14 @@ function connect(config) {
             return (callback) => {
                 //update is only used for collection 'orders', so searching for only active orders and modifying them accordingly...
                 collection.findAndModify(
-                    {uIdentity: query.uIdentity, status: 1},
-                    {$set: query},
+                    query,
+                    {$set: projection},
                     function (err, object) {
                         if (err) {
                             console.log('______retrieval error______');
                             console.log(err);
 
-                            callback(null, err);
+                            // callback(null, err);
                             // //call the fulfillmentGen callback to prepare fulfillment and return response...
                             // if (typeof callback === 'function')  callback(err, operation, undefined, response);
                         } else {

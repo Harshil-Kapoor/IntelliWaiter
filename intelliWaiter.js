@@ -78,10 +78,11 @@ MongoClient.connect(url, (err, db) => {
     }
 });
 
-function retrOrderWrapper(retTarget, data) {
+function retrOrderWrapper(retTarget, data, projection) {
     var config = {
         operation : 'retrieve',
         query : retTarget,
+        projection : projection,
         data : {
             retTarget : retTarget,
             data : data
@@ -141,104 +142,79 @@ function updateWrapper(retTarget, data) {
 //record update processing callback...
 function recordUpdate(data, collection) {
 
-    var starter, dish, dessert, supplement;
-    var starterCount, dishCount, dessertCount, supplementCount;
+    var err = data.err;
+    var insertFlag = data.insert;
 
-    //check if the document is found...
-    if(err){
-        //check if a new order has to be created, => no order found in collection 'orders'...
-        if(findRes.insert == 1){
-            console.log("Inserting new document into 'orders'...");
-            
-            targetIns[collection] = data.name;
-            targetIns[collection+'Count'] = data.count;
-            // //set the target variables as received in request from FBM...
-            // starter = reqStarter;
-            // dish = reqDish;
-            // dessert = reqDessert;
-            // supplement = reqSupplement;
-            //
-            // starterCount = reqStarterCount;
-            // dishCount = reqDishCount;
-            // dessertCount = reqDessertCount;
-            // supplementCount = reqSupplementCount;
-            //
-            // var targetKeysIns=[];
-            // if(reqStarter !='')         {targetKeysIns.push('starter');targetKeysIns.push('starterCount');}
-            // if(reqDish !='')            {targetKeysIns.push('dish');targetKeysIns.push('dishCount');}
-            // if(reqDessert !='')         {targetKeysIns.push('dessert');targetKeysIns.push('dessertCount');}
-            // if(reqSupplement!='')       {targetKeysIns.push('supplement');targetKeysIns.push('supplementCount');}
-            //
-            // //while creating document for new order in 'orders', set the order as active by setting status : 1...
-            // var targetIns={uIdentity: uIdentity, status : 1};
-            // for(key in targetKeysIns){
-            //     var property = targetKeysIns[key];
-            //     targetIns[property] = eval(property);
-            // }
+    //check if a new order has to be created, => no order found in collection 'orders'...
+    if (insertFlag != undefined) {
+        console.log("Inserting new document into 'orders'...");
 
-            var config = {
-                operation : 'update',
-                query : targetIns,
-                data : data,
-                reqCollection : collection
-            };
-            
-            return connect(config);
-        }
-        else    fulfillmentGen(err, '', undefined, response, collection);
-    }else{
+        var targetIns = {};
 
-        //logic for preparing data to update the document fields in mongoDB...
-        // var reqRan, reqPullups, reqPushups;
-        //
-        // reqRan = req.result.parameters.ran;
-        // reqPullups = req.result.parameters.pullups;
-        // reqPushups = req.result.parameters.pushups;
+        targetIns.uIdentity = data.retTarget.uIdentity;
+        targetIns.status = data.retTarget.status;
+        // targetIns['type'] = collection;
+        // targetIns[collection] = data.name;
+        // targetIns[collection + 'Count'] = data.count;
+        targetIns[collection] = [{
+            name : data.data.name,
+            count : data.data.count
+        }];
 
-        //set the target variables as received in request from FBM...
-        var foundStarterCount = findRes.starterCount;
-        var foundDishCount = findRes.dishCount;
-        var foundDessertCount = findRes.dessertCount;
-        var foundSupplementCount = findRes.supplementCount;
+        var config = {
+            operation: 'insert',
+            query: targetIns,
+            data: data,
+            reqCollection: 'orders'
+        };
 
-        starter = findRes.starter;
-        dish = findRes.dish;
-        dessert = findRes.dessert;
-        supplement = findRes.supplement;
+        return connect(config);
+    } else {
+        console.log("Found a document in 'orders'...");
 
-        //while updating order, increase/decrease order quantities...
-        starterCount = foundStarterCount + reqStarterCount;
-        dishCount = foundDishCount + reqDishCount;
-        dessertCount = foundDessertCount + reqDessertCount;
-        supplementCount = foundSupplementCount + reqSupplementCount;
+        var updQuery = {uIdentity: data.retTarget.uIdentity, status: 1};
+        var targetUpd = {};
+        var newCount;
 
-        var targetKeys=[];
-        if(starter !='')         {targetKeys.push('starter');targetKeys.push('starterCount');}
-        if(dish !='')            {targetKeys.push('dish');targetKeys.push('dishCount');}
-        if(dessert !='')         {targetKeys.push('dessert');targetKeys.push('dessertCount');}
-        if(supplement !='')       {targetKeys.push('supplement');targetKeys.push('supplementCount');}
+        var projection = {};
+        projection[collection] = 1;
 
-
-        // if(reqRan !='')        targetKeys.push('ran');
-        // if(reqPullups !='')    targetKeys.push('pullups');
-        // if(reqPushups !='')    targetKeys.push('pushups');
-
-        //no key set by default while updating orders...
-        var target={};
-        for(key in targetKeys){
-            var property = targetKeys[key];
-            target[property] = eval(property);
+        var flag=0;
+        for(let obj of data.result){
+            if(obj.name == data.data.name){
+                flag=1;
+                obj.count += data.data.count;
+                newCount = obj.count;
+            }
         }
 
-        //finally, update the document, and pass the appropriate callback for preparing the response...
-        connect('update', target, fulfillmentGen, 'orders');
+        if(flag==0){
+            data.result.push({
+                name : data.data.name,
+                count : data.data.count
+            });
+            targetUpd[eval(collection)] = data.result;
+            // targetUpd = {
+            //     name : data.data.name,
+            //     count : data.data.count
+            // };
+        }else   targetUpd = data.result;
+
+        var updConfig = {
+            operation: 'update',
+            query: updQuery,
+            projection : targetUpd,
+            data: data,
+            reqCollection: 'orders'
+        };
+
+        return connect(updConfig);
     }
-
-    if(typeof next === 'function')  next();
 }
 
 //response generation callback...
-function fulfillmentGen(err, operation, result, response, collection) {
+// function fulfillmentGen(err, operation, result, response, collection) {
+function fulfillmentGen(data, response) {
 
     //check if error is generated, or we have the response...
     if(result == undefined){
@@ -256,102 +232,113 @@ function fulfillmentGen(err, operation, result, response, collection) {
         response.json(errResp);
     }else{
 
+        var name = data.data.name, count = data.data.count;
+        var insResp = {
+            speech: count + " plates of " + name + " confirmed",
+            displayText: count + " plates of " + name + " confirmed",
+            source: "IntelliWaiter Service @heroku"
+        };
+
+        //send the json formatted response to api.ai...
+        response.json(insResp);
+
         //format fulfillment response according to the 'operation' field in the function scope (closure)...
-        switch (operation){
-            case 'menu':
-                console.log("Entered 'menu' case for fulfillmentGen");
-
-                var name = result.name, price = result.price;
-
-                console.log("Received data : name : " + name + ", price : " + price);
-
-                var menuResp = {
-                    speech: "Hey There!, here's your Menu : \n" + name + ", Price : " + price,
-                    displayText: "Hey There!, here's your Menu : \n" + name + ", Price : " + price,
-                    source: "IntelliWaiter Service @heroku"
-                };
-
-            // function sendFBMessage(sender, messageData, callback) {
-            //     request({
-            //         url: 'https://graph.facebook.com/v2.6/me/messages',
-            //         qs: {access_token: FB_PAGE_ACCESS_TOKEN},
-            //         method: 'POST',
-            //         json: {
-            //             recipient: {id: uIdentity},
-            //             message: menuResp
-            //         }
-            //     }, function (error, response, body) {
-            //         if (error) {
-            //             console.log('Error sending message: ', error);
-            //         } else if (response.body.error) {
-            //             console.log('Error: ', response.body.error);
-            //         }
-            //
-            //         if (callback) {
-            //             callback();
-            //         }
-            //     });
-            // }
-
-                //send the json formatted response to api.ai...
-                console.log("MenuResp sent as : "+menuResp);
-                response.json(menuResp);
-
-                break;
-            case 'insert':
-
-                var insResp = {
-                    speech: "Voila, now with the target set, we can concentrate on achieving it",
-                    displayText: "Voila, now with the target set, we can concentrate on achieving it",
-                    source: "Workout Tracker Service @heroku"
-                };
-
-                //send the json formatted response to api.ai...
-                response.json(insResp);
-
-                break;
-            case 'retrieve':
-
-                var ranRes = result.ran;
-                var unitRes = result.unit;
-                var pushupsRes = result.pushups;
-                var pullupsRes = result.pullups;
-
-                //Here's what you're looking for :
-
-                var textRes = "Distance ran: " + ranRes + " " + unitRes + "\n" +
-                              "Push-ups : " + pushupsRes + "\n" +
-                              "Pull-ups : " + pullupsRes;
-
-                var findResp = {
-                    speech: textRes,
-                    displayText: textRes,
-                    source: "Workout Tracker Service @heroku",
-
-                    status: "found"
-                };
-
-                //send the json formatted response to api.ai...
-                response.json(findResp);
-
-                break;
-            case 'update':
-
-                var updateResp = {
-                    speech: "Sure, let me jot it down...",
-                    displayText: "Sure, let me jot it down...",
-                    source: "Workout Tracker Service @heroku"
-                };
-
-                //send the json formatted response to api.ai...
-                response.json(updateResp);
-
-                break;
-        }
+        // switch (operation){
+        //     // case 'menu':
+        //     //     console.log("Entered 'menu' case for fulfillmentGen");
+        //     //
+        //     //     var name = result.name, price = result.price;
+        //     //
+        //     //     console.log("Received data : name : " + name + ", price : " + price);
+        //     //
+        //     //     var menuResp = {
+        //     //         speech: "Hey There!, here's your Menu : \n" + name + ", Price : " + price,
+        //     //         displayText: "Hey There!, here's your Menu : \n" + name + ", Price : " + price,
+        //     //         source: "IntelliWaiter Service @heroku"
+        //     //     };
+        //     //
+        //     // // function sendFBMessage(sender, messageData, callback) {
+        //     // //     request({
+        //     // //         url: 'https://graph.facebook.com/v2.6/me/messages',
+        //     // //         qs: {access_token: FB_PAGE_ACCESS_TOKEN},
+        //     // //         method: 'POST',
+        //     // //         json: {
+        //     // //             recipient: {id: uIdentity},
+        //     // //             message: menuResp
+        //     // //         }
+        //     // //     }, function (error, response, body) {
+        //     // //         if (error) {
+        //     // //             console.log('Error sending message: ', error);
+        //     // //         } else if (response.body.error) {
+        //     // //             console.log('Error: ', response.body.error);
+        //     // //         }
+        //     // //
+        //     // //         if (callback) {
+        //     // //             callback();
+        //     // //         }
+        //     // //     });
+        //     // // }
+        //     //
+        //     //     //send the json formatted response to api.ai...
+        //     //     console.log("MenuResp sent as : "+menuResp);
+        //     //     response.json(menuResp);
+        //     //
+        //     //     break;
+        //
+        //
+        //     case 'insert':
+        //
+        //         var name = data.data.name, count = data.data.count;
+        //         var insResp = {
+        //             speech: count + " plates of " + name + " confirmed",
+        //             displayText: count + " plates of " + name + " confirmed",
+        //             source: "IntelliWaiter Service @heroku"
+        //         };
+        //
+        //         //send the json formatted response to api.ai...
+        //         response.json(insResp);
+        //
+        //         break;
+        //     case 'retrieve':
+        //
+        //         var ranRes = result.ran;
+        //         var unitRes = result.unit;
+        //         var pushupsRes = result.pushups;
+        //         var pullupsRes = result.pullups;
+        //
+        //         //Here's what you're looking for :
+        //
+        //         var textRes = "Distance ran: " + ranRes + " " + unitRes + "\n" +
+        //                       "Push-ups : " + pushupsRes + "\n" +
+        //                       "Pull-ups : " + pullupsRes;
+        //
+        //         var findResp = {
+        //             speech: textRes,
+        //             displayText: textRes,
+        //             source: "Workout Tracker Service @heroku",
+        //
+        //             status: "found"
+        //         };
+        //
+        //         //send the json formatted response to api.ai...
+        //         response.json(findResp);
+        //
+        //         break;
+        //     case 'update':
+        //
+        //         var updateResp = {
+        //             speech: "Sure, let me jot it down...",
+        //             displayText: "Sure, let me jot it down...",
+        //             source: "Workout Tracker Service @heroku"
+        //         };
+        //
+        //         //send the json formatted response to api.ai...
+        //         response.json(updateResp);
+        //
+        //         break;
+        // }
 
     }
-
-    next();
 }
 
 // set starter as provided by the user...
@@ -362,23 +349,26 @@ function updateStarter(req, res) {
 //    // var target = {uIdentity: uIdentity, starter: starter, starterCount: starterCount};
 
     response = res;
-    // collection = 'starters';
-    collection = 'orders';
+    collection = 'starters';
+    // collection = 'orders';
 
     var strTarget = {name : reqStarter};
 
     var data = {name : reqStarter, count : reqStarterCount};
     
     var retTarget = {uIdentity: uIdentity, status : 1};
-    
+
+    var projection = {};
+    projection[collection] = 1;
+
     let fArray =[];
     // fArray.push(connect('retrieve', strTarget, 'starters', updateData, retTarget));
-    fArray.push(retrOrderWrapper(retTarget, data));
+    fArray.push(retrOrderWrapper(retTarget, data, projection));
     fArray.push((data) => {return recordUpdate(data, 'starters')});
-    
+
     // fArray.push((callback) => {DB.close();callback(null)});
-    async.waterfall(fArray, (err,result) => {
-        if(!err)    res.status(200).send("ok");
+    async.waterfall(fArray, (err, result) => {
+        if(!err)    fulfillmentGen(result, res);
         else    res.status(500);
     });
 }
