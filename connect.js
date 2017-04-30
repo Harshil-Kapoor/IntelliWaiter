@@ -18,7 +18,7 @@ function connect(config, DB) {
 
     var collection = DB.collection(reqCollection);
 
-    console.log("Connection object : " + JSON.stringify(collection));
+    // console.log("Connection object : " + JSON.stringify(collection));
 
     // var user1 = {name: 'modulus admin', age: 42, roles: ['admin', 'moderator', 'user']};
     // var user2 = {name: 'modulus user', age: 22, roles: ['user']};
