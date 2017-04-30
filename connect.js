@@ -60,7 +60,7 @@ function connect(config, DB) {
                 // if (reqCollection = 'orders')   fQuery = query;
                 // else                        fQuery = {uIdentity: query.uIdentity};
 
-                collection.findOne(query, projection).toArray((err, result) => {
+                collection.find(query, projection).toArray((err, result) => {
                     if (err) {
                         console.log('______retrieval error______');
                         console.log(err);
