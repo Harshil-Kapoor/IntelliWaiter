@@ -84,7 +84,7 @@ function retrOrderWrapper(retTarget, data, projection) {
             retTarget : retTarget,
             data : data
         },
-        reqCollection : 'order'
+        reqCollection : 'orders'
     };
     return  connect(config, DB);
 }
@@ -104,7 +104,7 @@ function insertWrapper(retTarget, data) {
         operation : 'retrieve',
         query : retTarget,
         data : data,
-        collection : 'order'
+        collection : 'orders'
     };
     return  connect(config, DB);
 }
@@ -361,8 +361,8 @@ function updateStarter(req, res) {
     let fArray =[];
     // fArray.push(connect('retrieve', strTarget, 'starters', updateData, retTarget));
     fArray.push(retrOrderWrapper(retTarget, data, projection));
-    // fArray.push((data) => {return recordUpdate(data, 'starters')});
-    fArray.push(recordUpdate(data, 'starters'));
+    fArray.push((data) => {return recordUpdate(data, 'starters')});
+    // fArray.push(recordUpdate(data, 'starters'));
 
     // fArray.push((callback) => {DB.close();callback(null)});
     async.waterfall(fArray, (err, result) => {
