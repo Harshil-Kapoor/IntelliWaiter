@@ -189,11 +189,11 @@ function recordUpdate(data, collection, callback) {
         }
 
         if(flag==0){
-            data.result.push({
+            data.result[collection].push({
                 name : data.data.name,
                 count : data.data.count
             });
-            targetUpd[collection] = data.result;
+            targetUpd[collection] = data.result[collection];
             // targetUpd = {
             //     name : data.data.name,
             //     count : data.data.count
@@ -361,6 +361,7 @@ function updateStarter(req, res) {
 
     var projection = {};
     projection[collection] = 1;
+    // projection["_id"] = 0;
 
     let fArray =[];
     // fArray.push(connect('retrieve', strTarget, 'starters', updateData, retTarget));
