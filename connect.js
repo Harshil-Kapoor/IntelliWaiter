@@ -14,7 +14,7 @@ function connect(config, DB) {
     reqCollection = config.reqCollection;
 
     // console.log("Entered connect with operation : " + operation + ", and query : " + query.toString());
-    console.log("Entered connect with config params : " + config.toString());
+    console.log("Entered connect with config params : " + JSON.stringify(config));
 
     var collection = DB.collection(reqCollection);
 
