@@ -44,7 +44,7 @@ function connect(config, DB, callback) {
                         // //call the fulfillmentGen callback to prepare fulfillment and return response...
                         // if (typeof callback === 'function')  callback(err, operation, undefined, response);
                     } else {
-                        console.log('Inserted a document into "workout" collection.');
+                        console.log('Inserted a document into ' + reqCollection + ' collection.');
 
                         data['result'] = result;
                         callback(null, data);
@@ -53,6 +53,7 @@ function connect(config, DB, callback) {
                         // if (typeof callback === 'function')  callback(undefined, operation, result, response);
                     }
                 });
+            break;
             // };
 
         //mongoDB logic for document retrieval...
@@ -93,6 +94,7 @@ function connect(config, DB, callback) {
                         // if (typeof callback === 'function')  callback(undefined, operation, result, response);
                     }
                 });
+            break;
             // };
 
         //mongoDB logic for updating document...
@@ -119,6 +121,7 @@ function connect(config, DB, callback) {
                             // if (typeof callback === 'function')  callback(undefined, operation, object, response);
                         }
                     });
+            break;
             // };
     }
 }
