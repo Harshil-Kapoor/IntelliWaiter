@@ -209,7 +209,7 @@ function recordUpdate(data, collection, callback) {
         };
 
         // return connect(updConfig);
-        connect(updConfig, callback);
+        connect(updConfig, DB, callback);
     }
 }
 
