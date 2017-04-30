@@ -6,7 +6,7 @@ module.exports = connect;
 
 var operation, query, projection, data, reqCollection;
 
-function connect(config, DB) {
+function connect(config, DB, callback) {
     operation = config.operation;
     query = config.query;
     projection = config.projection;
@@ -31,7 +31,7 @@ function connect(config, DB) {
         case 'insert' :
             console.log("Entered 'insert'...");
 
-            return (callback) => {
+            // return (callback) => {
                 console.log("Entered 'insert' callback...");
 
                 DB.collection(reqCollection).insert(query, function (err, result) {
@@ -53,12 +53,12 @@ function connect(config, DB) {
                         // if (typeof callback === 'function')  callback(undefined, operation, result, response);
                     }
                 });
-            };
+            // };
 
         //mongoDB logic for document retrieval...
         case 'retrieve' :
 
-            return (callback) => {
+            // return (callback) => {
                 //                     var result = collection.findOne({uIdentity : query.uIdentity});
                 //
                 //dynamically setting the query for fetching order & menu documents...
@@ -93,12 +93,12 @@ function connect(config, DB) {
                         // if (typeof callback === 'function')  callback(undefined, operation, result, response);
                     }
                 });
-            };
+            // };
 
         //mongoDB logic for updating document...
         case 'update' :
 
-            return (callback) => {
+            // return (callback) => {
                 //update is only used for collection 'orders', so searching for only active orders and modifying them accordingly...
                 collection.findAndModify(
                     query,
@@ -119,6 +119,6 @@ function connect(config, DB) {
                             // if (typeof callback === 'function')  callback(undefined, operation, object, response);
                         }
                     });
-            };
+            // };
     }
 }

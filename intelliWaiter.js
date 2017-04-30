@@ -75,7 +75,7 @@ MongoClient.connect(url, (err, db) => {
     }
 });
 
-function retrOrderWrapper(retTarget, data, projection) {
+function retrOrderWrapper(retTarget, data, projection, callback) {
     var config = {
         operation : 'retrieve',
         query : retTarget,
@@ -86,7 +86,8 @@ function retrOrderWrapper(retTarget, data, projection) {
         },
         reqCollection : 'orders'
     };
-    return  connect(config, DB);
+    // return  connect(config, DB);
+    connect(config, DB, callback);
 }
 
 function retrPriceWrapper(retTarget, data, collection) {
@@ -96,7 +97,8 @@ function retrPriceWrapper(retTarget, data, collection) {
         data : data,
         reqCollection : collection
     };
-    return  connect(config, DB);
+    // return  connect(config, DB);
+    connect(config, DB);
 }
 
 function insertWrapper(retTarget, data) {
@@ -137,7 +139,7 @@ function updateWrapper(retTarget, data) {
 // }
 
 //record update processing callback...
-function recordUpdate(data, collection) {
+function recordUpdate(data, collection, callback) {
 
     var err = data.err;
     var insertFlag = data.insert;
@@ -165,7 +167,8 @@ function recordUpdate(data, collection) {
             reqCollection: 'orders'
         };
 
-        return connect(config, DB);
+        // return connect(config, DB);
+        connect(config, DB, callback);
     } else {
         console.log("Found a document in 'orders'...");
 
@@ -205,7 +208,8 @@ function recordUpdate(data, collection) {
             reqCollection: 'orders'
         };
 
-        return connect(updConfig);
+        // return connect(updConfig);
+        connect(updConfig, callback);
     }
 }
 
@@ -360,8 +364,8 @@ function updateStarter(req, res) {
 
     let fArray =[];
     // fArray.push(connect('retrieve', strTarget, 'starters', updateData, retTarget));
-    fArray.push(retrOrderWrapper(retTarget, data, projection));
-    fArray.push((data) => {return recordUpdate(data, 'starters')});
+    fArray.push((callback) => {retrOrderWrapper(retTarget, data, projection, callback)});
+    fArray.push((data, callback) => {recordUpdate(data, 'starters', callback)});
     // fArray.push(recordUpdate(data, 'starters'));
 
     // fArray.push((callback) => {DB.close();callback(null)});
