@@ -113,6 +113,7 @@ function recordUpdate(data, collection, callback) {
 
     var err = data.err;
     var insertFlag = data.insert;
+    var insertCollFlag = data.insert_coll;
 
     //check if a new order has to be created, => no order found in collection 'orders'...
     if (insertFlag != undefined) {
@@ -139,57 +140,79 @@ function recordUpdate(data, collection, callback) {
 
         // return connect(config, DB);
         connect(config, DB, callback);
-    } else {
-        //
-        //
-        //
-        // DO SOMETHING HERE!!!!!
-        //
-        //
-        //
-        console.log("Found a document in 'orders'...");
+    } else if (insertCollFlag != undefined) {
+        console.log("Inserting new category " + collection + " into existing record in 'orders'...");
 
-        var updQuery = {uIdentity: data.retTarget.uIdentity, status: 1};
-        var targetUpd = {};
-        var newCount;
+        var updCatQuery = {uIdentity: data.retTarget.uIdentity, status: 1};
+        var targetCatIns = {};
 
-        var flag=0;
-        for(let obj of data.result[0][collection]){
-            if(obj.name == data.data.name){
+        targetCatIns[collection] = [{
+            name : data.data.name,
+            count : data.data.count
+        }];
 
-                console.log("Property " + data.data.name + " found a document in " + collection + " in 'orders'...");
-
-                flag=1;
-                newCount = parseInt(obj.count, 10) + parseInt(data.data.count, 10);
-                obj.count = newCount;
-            }
-        }
-
-        if(flag==0){
-
-            console.log("Pushing property " + data.data.name + " into " + JSON.stringify(collection) + " in 'orders'...");
-
-            data.result[0][collection].push({
-                name : data.data.name,
-                count : data.data.count
-            });
-            targetUpd[collection] = data.result[0][collection];
-            // targetUpd = {
-            //     name : data.data.name,
-            //     count : data.data.count
-            // };
-        }else   targetUpd = data.result[0];
-
-        var updConfig = {
+        var catConfig = {
             operation: 'update',
-            query: updQuery,
-            projection : targetUpd,
+            query: updCatQuery,
+            projection: targetCatIns,
             data: data,
             reqCollection: 'orders'
         };
 
-        // return connect(updConfig);
-        connect(updConfig, DB, callback);
+        // return connect(config, DB);
+        connect(catConfig, DB, callback);
+    } else {
+            //
+            //
+            //
+            // DO SOMETHING HERE!!!!!
+            //
+            //
+            //
+            console.log("Found a document in 'orders'...");
+
+            var updQuery = {uIdentity: data.retTarget.uIdentity, status: 1};
+            var targetUpd = {};
+            var newCount;
+
+            var flag=0;
+            for(let obj of data.result[0][collection]){
+                if(obj.name == data.data.name){
+
+                    console.log("Property " + data.data.name + " found a document in " + collection + " in 'orders'...");
+
+                    flag=1;
+                    newCount = parseInt(obj.count, 10) + parseInt(data.data.count, 10);
+                    obj.count = newCount;
+                }
+            }
+
+            if(flag==0){
+
+                console.log("Pushing property " + data.data.name + " into " + JSON.stringify(collection) + " in 'orders'...");
+
+                data.result[0][collection].push({
+                    name : data.data.name,
+                    count : data.data.count
+                });
+                targetUpd[collection] = data.result[0][collection];
+                // targetUpd = {
+                //     name : data.data.name,
+                //     count : data.data.count
+                // };
+            }else   targetUpd = data.result[0];
+
+            var updConfig = {
+                operation: 'update',
+                query: updQuery,
+                projection : targetUpd,
+                data: data,
+                reqCollection: 'orders'
+            };
+
+            // return connect(updConfig);
+            connect(updConfig, DB, callback);
+        }
     }
 }
 

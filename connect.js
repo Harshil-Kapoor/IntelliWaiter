@@ -74,24 +74,31 @@ function connect(config, DB, callback) {
                         console.log(err);
 
                         // callback(null, {err : 1});
-                    } else if (result.length == 0 || (!Object.keys(result[0]).length > 0)) {
-                        console.log("No document retrieved...");
+                    } else if (result.length == 0) {
+                        console.log("No document retrieved, no order record for user...");
 
-                        //status : 1 means the order is active, i.e. current order...
                         if (reqCollection = 'orders'){
                             data['insert'] = 1;
                             callback(null, data);
                         }else   callback(null, data);
-                    } else {
-                        console.log('Retrieved document ' + JSON.stringify(result) + ' from ' + collection + ' collection.');
+                    } else if (result[0].length == 0) {
+                        console.log("No document retrieved, new category to be inserted into order...");
 
-                        data['result'] = result;
-                        
-                        callback(null, data);
-                        // // return result;
-                        // //call the fulfillmentGen callback to prepare fulfillment and return response...
-                        // //or the recordUpdate callback...
-                        // if (typeof callback === 'function')  callback(undefined, operation, result, response);
+                        if (reqCollection = 'orders'){
+                            data['insert_coll'] = 1;
+                            callback(null, data);
+                        }else   callback(null, data);
+                    } else {
+                            console.log('Retrieved document ' + JSON.stringify(result) + ' from ' + collection + ' collection.');
+
+                            data['result'] = result;
+
+                            callback(null, data);
+                            // // return result;
+                            // //call the fulfillmentGen callback to prepare fulfillment and return response...
+                            // //or the recordUpdate callback...
+                            // if (typeof callback === 'function')  callback(undefined, operation, result, response);
+                        }
                     }
                 });
             break;
