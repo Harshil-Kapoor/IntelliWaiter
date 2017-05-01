@@ -70,7 +70,7 @@ function connect(config, DB, callback) {
 
                 collection.find(query, projection).toArray((err, result) => {
                     if (err) {
-                        console.log('______retrieval error______');
+                        console.log('______retrieval error @retrieve______');
                         console.log(err);
 
                         // callback(null, {err : 1});
@@ -102,12 +102,12 @@ function connect(config, DB, callback) {
 
             // return (callback) => {
                 //update is only used for collection 'orders', so searching for only active orders and modifying them accordingly...
-                collection.findAndModify(
+                collection.update(
                     query,
                     {$set: projection},
                     function (err, object) {
                         if (err) {
-                            console.log('______retrieval error______');
+                            console.log('______retrieval error @update______');
                             console.log(err);
 
                             // callback(null, err);
