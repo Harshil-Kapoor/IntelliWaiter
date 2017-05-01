@@ -393,23 +393,31 @@ function updateDish(req, res) {
     reqDish = req.body.result.parameters.dish;
     reqDishCount = req.body.result.parameters.dishCount;
 
-//    // var target = {uIdentity: uIdentity, dish: dish, dishCount: dishCount};
+    response = res;
+    collection = 'dishes';
+    // collection = 'orders';
 
-    response =res;
-    // collection = 'dishes';
-    collection = 'orders';
+    var strTarget = {name : reqDish};
 
-    //call connect() with appropriate arguements...
-    // var DBResult = connect('insert', target);
+    var data = {name : reqDish, count : reqDishCount};
 
-//    // connect('insert', target, fulfillmentGen);
+    var retTarget = {uIdentity: uIdentity, status : 1};
 
-    // if(DBResult == undefined)  console.log('----------Error in either MongoDB connection, or operations----------');
-    // else                       console.log(DBResult + ' @set_target');
+    var projection = {};
+    projection[collection] = 1;
+    projection["_id"] = 0;
 
-    var retTarget = {uIdentity: uIdentity};
+    let fArray =[];
+    // fArray.push(connect('retrieve', strTarget, 'starters', updateData, retTarget));
+    fArray.push((callback) => {retrOrderWrapper(retTarget, data, projection, callback)});
+    fArray.push((data, callback) => {recordUpdate(data, 'dishes', callback)});
+    // fArray.push(recordUpdate(data, 'starters'));
 
-    connect('retrieve', retTarget, recordUpdate, collection);
+    // fArray.push((callback) => {DB.close();callback(null)});
+    async.waterfall(fArray, (err, result) => {
+        if(!err)    fulfillmentGen(result, res);
+        else    res.status(500);
+    });
 }
 
 // set dessert as provided by the user...
@@ -417,25 +425,31 @@ function updateDessert(req, res) {
     reqDessert = req.body.result.parameters.dessert;
     reqDessertCount = req.body.result.parameters.dessertCount;
 
-//    // var target = {uIdentity: uIdentity, dessert: dessert, dessertCount: dessertCount};
+    response = res;
+    collection = 'desserts';
+    // collection = 'orders';
 
-    response =res;
-    // collection = 'desserts';
-    collection = 'orders';
+    var strTarget = {name : reqDessert};
 
-    //call connect() with appropriate arguements...
-    // var DBResult = connect('insert', target);
+    var data = {name : reqDessert, count : reqDessertCount};
 
-//    // connect('insert', target, fulfillmentGen);
+    var retTarget = {uIdentity: uIdentity, status : 1};
 
-    // if(DBResult == undefined)  console.log('----------Error in either MongoDB connection, or operations----------');
-    // else                       console.log(DBResult + ' @set_target');
+    var projection = {};
+    projection[collection] = 1;
+    projection["_id"] = 0;
 
-    var retTarget = {uIdentity: uIdentity};
+    let fArray =[];
+    // fArray.push(connect('retrieve', strTarget, 'starters', updateData, retTarget));
+    fArray.push((callback) => {retrOrderWrapper(retTarget, data, projection, callback)});
+    fArray.push((data, callback) => {recordUpdate(data, 'desserts', callback)});
+    // fArray.push(recordUpdate(data, 'starters'));
 
-    connect('retrieve', retTarget, recordUpdate, collection);
-
-    
+    // fArray.push((callback) => {DB.close();callback(null)});
+    async.waterfall(fArray, (err, result) => {
+        if(!err)    fulfillmentGen(result, res);
+        else    res.status(500);
+    });
 }
 
 // set supplement as provided by the user...
@@ -443,85 +457,93 @@ function updateSupplement(req, res) {
     reqSupplement = req.body.result.parameters.supplement;
     reqSupplementCount = req.body.result.parameters.supplementCount;
 
-//    // var target = {uIdentity: uIdentity, supplement: supplement, supplementCount: supplementCount};
+    response = res;
+    collection = 'supplements';
+    // collection = 'orders';
 
-    response =res;
-    // collection = 'supplements';
-    collection = 'orders';
+    var strTarget = {name : reqSupplement};
 
-    //call connect() with appropriate arguements...
-    // var DBResult = connect('insert', target);
+    var data = {name : reqSupplement, count : reqSupplementCount};
 
-//    // connect('insert', target, fulfillmentGen);
+    var retTarget = {uIdentity: uIdentity, status : 1};
 
-    // if(DBResult == undefined)  console.log('----------Error in either MongoDB connection, or operations----------');
-    // else                       console.log(DBResult + ' @set_target');
+    var projection = {};
+    projection[collection] = 1;
+    projection["_id"] = 0;
 
-    var retTarget = {uIdentity: uIdentity};
+    let fArray =[];
+    // fArray.push(connect('retrieve', strTarget, 'starters', updateData, retTarget));
+    fArray.push((callback) => {retrOrderWrapper(retTarget, data, projection, callback)});
+    fArray.push((data, callback) => {recordUpdate(data, 'supplements', callback)});
+    // fArray.push(recordUpdate(data, 'starters'));
 
-    connect('retrieve', retTarget, recordUpdate, collection);
-}
-
-// get menu to be sent to the user...
-function sendMenu(req, res) {
-    var menuTarget=[], name='', price;
-
-    response =res;
-    reqCollection = req.body.result.parameters.collection;
-    console.log("reqCollection received as : " + reqCollection);
-
-    //call connect() with appropriate arguements...
-    // var DBResult = connect('retrieve', target);
-
-    // connect('retrieve', target, fulfillmentGen, collection);
-
-    // if(DBResult == undefined)  console.log('----------Error in either MongoDB connection, or operations----------');
-    // else                       console.log(DBResult + ' @show_status');
-
-    MongoClient.connect(url, function (err, db) {
-        if (err || reqCollection == undefined){
-            console.log("Error connecting to database : ",err);
-
-            return true;
-        }else{
-            console.log("Successfully connected to database @ sendMenu...");
-
-            var collection = db.collection(reqCollection);
-
-            var cursor = collection.find({}, {"_id":false, "name":true, "price":true});
-            cursor.each(function (err, item) {
-                if (err) {
-                    console.log('______retrieval error______');
-                    console.log(err);
-
-                    //call the fulfillmentGen callback to prepare fulfillment and return response...
-                    // fulfillmentGen(err, 'retrieve', undefined, response);
-                } else if(item == null || item == undefined) {
-                    console.log(item + " document retrieved as 'item'...");
-                }else{
-                    console.log('Retrieved document '+ item._id +' from "workout" collection.');
-                    name = item.name;
-                    price = item.price;
-                    console.log(name+'\n');
-
-                    //format the generic template / card response, using the documents fetched from the collection ''
-                    // for(key in targetKeys){
-                    //     var property = targetKeys[key];
-                    //     target[property] = eval(property);
-                    // }
-                    //
-                    // menuTarget+=item.name+'\n'+item.price+'\n';
-
-                    menuItemTarget = {"name" : name, "price" : price};
-
-                    //call the fulfillmentGen callback to prepare fulfillment and return response...
-                    fulfillmentGen(err, 'menu', menuItemTarget, response);
-                }
-                db.close();
-            });
-        }
+    // fArray.push((callback) => {DB.close();callback(null)});
+    async.waterfall(fArray, (err, result) => {
+        if(!err)    fulfillmentGen(result, res);
+        else    res.status(500);
     });
 }
+
+// // get menu to be sent to the user...
+// function sendMenu(req, res) {
+//     var menuTarget=[], name='', price;
+//
+//     response =res;
+//     reqCollection = req.body.result.parameters.collection;
+//     console.log("reqCollection received as : " + reqCollection);
+//
+//     //call connect() with appropriate arguements...
+//     // var DBResult = connect('retrieve', target);
+//
+//     // connect('retrieve', target, fulfillmentGen, collection);
+//
+//     // if(DBResult == undefined)  console.log('----------Error in either MongoDB connection, or operations----------');
+//     // else                       console.log(DBResult + ' @show_status');
+//
+//     MongoClient.connect(url, function (err, db) {
+//         if (err || reqCollection == undefined){
+//             console.log("Error connecting to database : ",err);
+//
+//             return true;
+//         }else{
+//             console.log("Successfully connected to database @ sendMenu...");
+//
+//             var collection = db.collection(reqCollection);
+//
+//             var cursor = collection.find({}, {"_id":false, "name":true, "price":true});
+//             cursor.each(function (err, item) {
+//                 if (err) {
+//                     console.log('______retrieval error______');
+//                     console.log(err);
+//
+//                     //call the fulfillmentGen callback to prepare fulfillment and return response...
+//                     // fulfillmentGen(err, 'retrieve', undefined, response);
+//                 } else if(item == null || item == undefined) {
+//                     console.log(item + " document retrieved as 'item'...");
+//                 }else{
+//                     console.log('Retrieved document '+ item._id +' from "workout" collection.');
+//                     name = item.name;
+//                     price = item.price;
+//                     console.log(name+'\n');
+//
+//                     //format the generic template / card response, using the documents fetched from the collection ''
+//                     // for(key in targetKeys){
+//                     //     var property = targetKeys[key];
+//                     //     target[property] = eval(property);
+//                     // }
+//                     //
+//                     // menuTarget+=item.name+'\n'+item.price+'\n';
+//
+//                     menuItemTarget = {"name" : name, "price" : price};
+//
+//                     //call the fulfillmentGen callback to prepare fulfillment and return response...
+//                     fulfillmentGen(err, 'menu', menuItemTarget, response);
+//                 }
+//                 db.close();
+//             });
+//         }
+//     });
+// }
 
 // get bill to be sent to the user...
 function sendBill(req, res) {
