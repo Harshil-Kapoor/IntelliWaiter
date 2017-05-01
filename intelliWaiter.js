@@ -14,31 +14,22 @@ var connect = require('./connect');
 //initialize the MongoClient, and specify the connection url...
 var MongoClient = mongodb.MongoClient;
 
+//the MongoDB url for Database 'intelli-waiter'...
 var url = 'mongodb://admin:123456@ds149040.mlab.com:49040/intelli-waiter';
 
 //initialize the express app...
 var app = express();
 
-
 var port = process.env.PORT || 8000;
-// app.set('port', port);
-
-// var server = http.createServer(app);
-//
-// server.listen(port);
-
 
 //declare the commom variables...
 var  uIdentity;
-// var runTarget, unitTarget, pullupsTarget, pushupsTarget, dateTarget;
-// var ran, unit, pullups, pushups, date;
-// var response;3
-// var reqRan, reqPullups, reqPushups;
 
 var reqStarter, reqDish, reqDessert, reqSupplement;
 var reqStarterCount, reqDishCount, reqDessertCount, reqSupplementCount;
 reqStarter = reqDish = reqDessert = reqSupplement = '';
 starterCount = dishCount = dessertCount = supplementCount = 0;
+
 //write the middleware...
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -68,7 +59,6 @@ function backWebhook(req, res) {
     uIdentity = "Harshil Kapoor";
 
     //redirect to appropriate callbacks acc. to the request action...
-    // if (action == 'sendMenu')                sendMenu(req, res);
     if (action == 'updateStarter')           updateStarter(req, res);
     else if (action == 'updateDish')         updateDish(req, res);
     else if (action == 'updateDessert')      updateDessert(req, res);
@@ -100,7 +90,6 @@ function retrPriceWrapper(retTarget, data, collection, callback) {
         data : data,
         reqCollection : collection
     };
-    // return  connect(config, DB);
     connect(config, DB, callback);
 }
 
@@ -111,6 +100,7 @@ function recordUpdate(data, collection, callback) {
 
     console.log("Params rec'd @recordUpdate : data = " + JSON.stringify(data) + ", collection = " + collection);
 
+    //collect the flags...
     var err = data.err;
     var insertFlag = data.insert;
     var insertCollFlag = data.insert_coll;
@@ -123,14 +113,13 @@ function recordUpdate(data, collection, callback) {
 
         targetIns.uIdentity = data.retTarget.uIdentity;
         targetIns.status = data.retTarget.status;
-        // targetIns['type'] = collection;
-        // targetIns[collection] = data.name;
-        // targetIns[collection + 'Count'] = data.count;
+
         targetIns[collection] = [{
             name : data.data.name,
             count : data.data.count
         }];
 
+        //prepare 'connect' configuration 'config'...
         var config = {
             operation: 'insert',
             query: targetIns,
@@ -138,9 +127,8 @@ function recordUpdate(data, collection, callback) {
             reqCollection: 'orders'
         };
 
-        // return connect(config, DB);
         connect(config, DB, callback);
-    } else if (insertCollFlag != undefined) {
+    } else if (insertCollFlag != undefined) { //check if the order exists, but a new category needs to be inserted...
         console.log("Inserting new category " + collection + " into existing record in 'orders'...");
 
         var updCatQuery = {uIdentity: data.retTarget.uIdentity, status: 1};
@@ -151,6 +139,7 @@ function recordUpdate(data, collection, callback) {
             count : data.data.count
         }];
 
+        //prepare 'connect' configuration 'config'...
         var catConfig = {
             operation: 'update',
             query: updCatQuery,
@@ -159,60 +148,50 @@ function recordUpdate(data, collection, callback) {
             reqCollection: 'orders'
         };
 
-        // return connect(config, DB);
         connect(catConfig, DB, callback);
-    } else {
-            //
-            //
-            //
-            // DO SOMETHING HERE!!!!!
-            //
-            //
-            //
-            console.log("Found a document in 'orders'...");
+    } else { //document found in orders => update the document accordingly...
+        console.log("Found a document in 'orders'...");
 
-            var updQuery = {uIdentity: data.retTarget.uIdentity, status: 1};
-            var targetUpd = {};
-            var newCount;
+        var updQuery = {uIdentity: data.retTarget.uIdentity, status: 1};
+        var targetUpd = {};
+        var newCount;
 
-            var flag=0;
-            for(let obj of data.result[0][collection]){
-                if(obj.name == data.data.name){
+        //check if the order property, i.e. the particular [collection] ordered already exists in the order, using a 'flag'...
+        var flag=0;
+        for(let obj of data.result[0][collection]){
+            if(obj.name == data.data.name){
 
-                    console.log("Property " + data.data.name + " found a document in " + collection + " in 'orders'...");
+                console.log("Property " + data.data.name + " found a document in " + collection + " in 'orders'...");
 
-                    flag=1;
-                    newCount = parseInt(obj.count, 10) + parseInt(data.data.count, 10);
-                    obj.count = newCount;
-                }
+                //update the property count in the result retrieved only...
+                flag=1;
+                newCount = parseInt(obj.count, 10) + parseInt(data.data.count, 10);
+                obj.count = newCount;
             }
-
-            if(flag==0){
-
-                console.log("Pushing property " + data.data.name + " into " + JSON.stringify(collection) + " in 'orders'...");
-
-                data.result[0][collection].push({
-                    name : data.data.name,
-                    count : data.data.count
-                });
-                targetUpd[collection] = data.result[0][collection];
-                // targetUpd = {
-                //     name : data.data.name,
-                //     count : data.data.count
-                // };
-            }else   targetUpd = data.result[0];
-
-            var updConfig = {
-                operation: 'update',
-                query: updQuery,
-                projection : targetUpd,
-                data: data,
-                reqCollection: 'orders'
-            };
-
-            // return connect(updConfig);
-            connect(updConfig, DB, callback);
         }
+
+        if(flag==0){
+
+            console.log("Pushing property " + data.data.name + " into " + JSON.stringify(collection) + " in 'orders'...");
+
+            data.result[0][collection].push({
+                name : data.data.name,
+                count : data.data.count
+            });
+            targetUpd[collection] = data.result[0][collection];
+        }else   targetUpd = data.result[0];
+
+        //prepare 'connect' configuration 'config'...
+        var updConfig = {
+            operation: 'update',
+            query: updQuery,
+            projection : targetUpd,
+            data: data,
+            reqCollection: 'orders'
+        };
+
+        connect(updConfig, DB, callback);
+    }
 }
 
 //response generation callback...
@@ -550,46 +529,3 @@ function sendBill(req, res) {
     // if(DBResult == undefined)  console.log('----------Error in either MongoDB connection, or operations----------');
     // else                       console.log(DBResult + ' @show_status');
 }
-
-// function record(req, res) {
-//
-//
-//     reqRan = req.body.result.parameters.ran;
-//     reqPullups = req.body.result.parameters.pullups;
-//     reqPushups = req.body.result.parameters.pushups;
-//
-//
-//     // ran = req.body.result.parameters.ran;
-//     // unit = req.body.result.parameters.unit;
-//     // pullups = req.body.result.parameters.pullups;
-//     // pushups = req.body.result.parameters.pushups;
-//     // date = req.body.result.parameters.date;
-//     //
-//     // targetCreator(ran, unit, pushups, pullups);
-//     //
-//     // var targetKeys=[];
-//     // if(ran !='')        targetKeys.push('ran');
-//     // if(unit !='')       targetKeys.push('unit');
-//     // if(pullups !='')    targetKeys.push('pullups');
-//     // if(pushups !='')    targetKeys.push('pushups');
-//     //
-//     // var target={};
-//     // for(key in targetKeys){
-//     //     var property = targetKeys[key];
-//     //     target[property] = eval(property);
-//     // }
-//
-//     response =res;
-//
-//
-//     //call connect() with appropriate arguements...
-//     // var DBResult = connect('update', target);
-//     var retTarget = {uIdentity: uIdentity};
-//
-//     connect('retrieve', retTarget, recordUpdate);
-//
-//     // if(DBResult == undefined)  console.log('----------Error in either MongoDB connection, or operations----------');
-//     // else                       console.log(DBResult + ' @record');
-//
-//     
-// }
