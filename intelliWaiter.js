@@ -170,18 +170,25 @@ function recordUpdate(data, collection, callback) {
         // return connect(config, DB);
         connect(config, DB, callback);
     } else {
+        //
+        //
+        //
+        // DO SOMETHING HERE!!!!!
+        //
+        //
+        //
         console.log("Found a document in 'orders'...");
 
         var updQuery = {uIdentity: data.retTarget.uIdentity, status: 1};
         var targetUpd = {};
         var newCount;
 
-        var projection = {};
-        projection[collection] = 1;
-
         var flag=0;
-        for(let obj of data.result){
+        for(let obj of data.result[collection]){
             if(obj.name == data.data.name){
+
+                console.log("Property " + data.data.name + " found a document in " + collection + " in 'orders'...");
+
                 flag=1;
                 obj.count += data.data.count;
                 newCount = obj.count;
@@ -189,6 +196,9 @@ function recordUpdate(data, collection, callback) {
         }
 
         if(flag==0){
+
+            console.log("Pushing property " + data.data.name + " into " + collection + " in 'orders'...");
+
             data.result[collection].push({
                 name : data.data.name,
                 count : data.data.count

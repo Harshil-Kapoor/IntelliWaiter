@@ -83,7 +83,7 @@ function connect(config, DB, callback) {
                             callback(null, data);
                         }else   callback(null, data);
                     } else {
-                        console.log('Retrieved document ' + result["_id"] + ' from "workout" collection.');
+                        console.log('Retrieved document ' + JSON.stringify(result) + ' from ' + collection + ' collection.');
 
                         data['result'] = result;
                         
