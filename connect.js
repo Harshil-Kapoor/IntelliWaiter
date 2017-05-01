@@ -74,7 +74,7 @@ function connect(config, DB, callback) {
                         console.log(err);
 
                         // callback(null, {err : 1});
-                    } else if (result.length == 0 || result[0] == undefined) {
+                    } else if (result.length == 0 || result[0] == null) {
                         console.log("No document retrieved...");
 
                         //status : 1 means the order is active, i.e. current order...
