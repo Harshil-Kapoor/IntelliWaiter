@@ -373,7 +373,7 @@ function updateStarter(req, res) {
 
     var projection = {};
     projection[collection] = 1;
-    // projection["_id"] = 0;
+    projection["_id"] = 0;
 
     let fArray =[];
     // fArray.push(connect('retrieve', strTarget, 'starters', updateData, retTarget));
