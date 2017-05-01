@@ -123,6 +123,8 @@ function connect(config, DB, callback) {
                         } else {
                             console.log("Successfully updated document...");
 
+                            data['result'] = object;
+
                             callback(null, data, object);
                             // //call the fulfillmentGen callback to prepare fulfillment and return response...
                             // if (typeof callback === 'function')  callback(undefined, operation, object, response);

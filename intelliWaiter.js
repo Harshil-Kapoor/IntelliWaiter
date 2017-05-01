@@ -83,12 +83,16 @@ function retrOrderWrapper(retTarget, data, projection, callback) {
 }
 
 //wrapper for retrieving price details using 'connect'...
-function retrPriceWrapper(retTarget, data, collection, callback) {
+function retrPriceWrapper(retTarget, projection, callback) {
     var config = {
         operation : 'retrieve',
         query : retTarget,
-        data : data,
-        reqCollection : collection
+        projection : projection,
+        data : {
+            retTarget : retTarget,
+            data : {bill : 1}
+        },
+        reqCollection : 'orders'
     };
     connect(config, DB, callback);
 }
@@ -214,6 +218,21 @@ function fulfillmentGen(data, response) {
     //     response.json(errResp);
     // }else{
 
+    if(data.data.bill != undefined){
+
+        console.log("result obtained @billing" + JSON.stringify(data.data.result));
+
+        let fArray =[];
+
+        fArray.push((callback) => {retrOrderWrapper(retTarget, data, projection, callback)});
+        fArray.push((data, callback) => {recordUpdate(data, 'desserts', callback)});
+
+        async.waterfall(fArray, (err, result) => {
+            if(!err)    fulfillmentGen(result, res);
+            else    res.status(500);
+        });
+
+    } else {
         var name = data.data.name, count = data.data.count;
         var insResp = {
             speech: count + " plates of " + name + " confirmed",
@@ -223,7 +242,7 @@ function fulfillmentGen(data, response) {
 
         //send the json formatted response to api.ai...
         response.json(insResp);
-
+    }
         //format fulfillment response according to the 'operation' field in the function scope (closure)...
         // switch (operation){
         //     // case 'menu':
@@ -330,11 +349,7 @@ function updateStarter(req, res) {
 
 //    // var target = {uIdentity: uIdentity, starter: starter, starterCount: starterCount};
 
-    response = res;
     collection = 'starters';
-    // collection = 'orders';
-
-    var strTarget = {name : reqStarter};
 
     var data = {name : reqStarter, count : reqStarterCount};
     
@@ -345,12 +360,10 @@ function updateStarter(req, res) {
     projection["_id"] = 0;
 
     let fArray =[];
-    // fArray.push(connect('retrieve', strTarget, 'starters', updateData, retTarget));
+
     fArray.push((callback) => {retrOrderWrapper(retTarget, data, projection, callback)});
     fArray.push((data, callback) => {recordUpdate(data, 'starters', callback)});
-    // fArray.push(recordUpdate(data, 'starters'));
 
-    // fArray.push((callback) => {DB.close();callback(null)});
     async.waterfall(fArray, (err, result) => {
         if(!err)    fulfillmentGen(result, res);
         else    res.status(500);
@@ -362,11 +375,7 @@ function updateDish(req, res) {
     reqDish = req.body.result.parameters.dish;
     reqDishCount = req.body.result.parameters.dishCount;
 
-    response = res;
     collection = 'dishes';
-    // collection = 'orders';
-
-    var strTarget = {name : reqDish};
 
     var data = {name : reqDish, count : reqDishCount};
 
@@ -377,12 +386,10 @@ function updateDish(req, res) {
     projection["_id"] = 0;
 
     let fArray =[];
-    // fArray.push(connect('retrieve', strTarget, 'starters', updateData, retTarget));
+
     fArray.push((callback) => {retrOrderWrapper(retTarget, data, projection, callback)});
     fArray.push((data, callback) => {recordUpdate(data, 'dishes', callback)});
-    // fArray.push(recordUpdate(data, 'starters'));
 
-    // fArray.push((callback) => {DB.close();callback(null)});
     async.waterfall(fArray, (err, result) => {
         if(!err)    fulfillmentGen(result, res);
         else    res.status(500);
@@ -394,11 +401,7 @@ function updateDessert(req, res) {
     reqDessert = req.body.result.parameters.dessert;
     reqDessertCount = req.body.result.parameters.dessertCount;
 
-    response = res;
     collection = 'desserts';
-    // collection = 'orders';
-
-    var strTarget = {name : reqDessert};
 
     var data = {name : reqDessert, count : reqDessertCount};
 
@@ -409,12 +412,10 @@ function updateDessert(req, res) {
     projection["_id"] = 0;
 
     let fArray =[];
-    // fArray.push(connect('retrieve', strTarget, 'starters', updateData, retTarget));
+
     fArray.push((callback) => {retrOrderWrapper(retTarget, data, projection, callback)});
     fArray.push((data, callback) => {recordUpdate(data, 'desserts', callback)});
-    // fArray.push(recordUpdate(data, 'starters'));
 
-    // fArray.push((callback) => {DB.close();callback(null)});
     async.waterfall(fArray, (err, result) => {
         if(!err)    fulfillmentGen(result, res);
         else    res.status(500);
@@ -426,11 +427,7 @@ function updateSupplement(req, res) {
     reqSupplement = req.body.result.parameters.supplement;
     reqSupplementCount = req.body.result.parameters.supplementCount;
 
-    response = res;
     collection = 'supplements';
-    // collection = 'orders';
-
-    var strTarget = {name : reqSupplement};
 
     var data = {name : reqSupplement, count : reqSupplementCount};
 
@@ -441,12 +438,10 @@ function updateSupplement(req, res) {
     projection["_id"] = 0;
 
     let fArray =[];
-    // fArray.push(connect('retrieve', strTarget, 'starters', updateData, retTarget));
+
     fArray.push((callback) => {retrOrderWrapper(retTarget, data, projection, callback)});
     fArray.push((data, callback) => {recordUpdate(data, 'supplements', callback)});
-    // fArray.push(recordUpdate(data, 'starters'));
 
-    // fArray.push((callback) => {DB.close();callback(null)});
     async.waterfall(fArray, (err, result) => {
         if(!err)    fulfillmentGen(result, res);
         else    res.status(500);
@@ -516,16 +511,18 @@ function updateSupplement(req, res) {
 
 // get bill to be sent to the user...
 function sendBill(req, res) {
-    var target = {uIdentity: uIdentity};
+    var retTarget = {uIdentity: uIdentity, status : 1};
 
-    response =res;
-    // collection = 'orders';
-    collection = 'orders';
+    var projection = {};
+    // projection[collection] = 1;
+    projection["_id"] = 0;
 
-    //call connect() with appropriate arguements...
-    // var DBResult = connect('retrieve', target);
-    connect('order', target, fulfillmentGen, collection);
+    let fArray =[];
 
-    // if(DBResult == undefined)  console.log('----------Error in either MongoDB connection, or operations----------');
-    // else                       console.log(DBResult + ' @show_status');
+    fArray.push((callback) => {retrPriceWrapper(retTarget, projection, callback)});
+
+    async.waterfall(fArray, (err, result) => {
+        if(!err)    fulfillmentGen(result, res);
+        else    res.status(500);
+    });
 }
