@@ -98,7 +98,6 @@ function connect(config, DB, callback) {
                             // //call the fulfillmentGen callback to prepare fulfillment and return response...
                             // //or the recordUpdate callback...
                             // if (typeof callback === 'function')  callback(undefined, operation, result, response);
-                        }
                     }
                 });
             break;
