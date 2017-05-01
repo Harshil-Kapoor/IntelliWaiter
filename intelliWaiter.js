@@ -213,7 +213,6 @@ function recordUpdate(data, collection, callback) {
             // return connect(updConfig);
             connect(updConfig, DB, callback);
         }
-    }
 }
 
 //response generation callback...
