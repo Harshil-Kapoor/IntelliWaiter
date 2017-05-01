@@ -46,24 +46,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //define callback for /webhook endpoint...
 app.post('/webhook', backWebhook);
 
-// the webhook...
-function backWebhook(req, res) {
-
-    console.log(JSON.stringify(req.body));
-
-    var action = req.body.result.action;
-    uIdentity = req.body.result.parameters.uIdentity;
-    uIdentity = "Harshil Kapoor";
-
-    //redirect to appropriate callbacks acc. to the request action...
-    if (action == 'sendMenu')                sendMenu(req, res);
-    else if (action == 'updateStarter')      updateStarter(req, res);
-    else if (action == 'updateDish')         updateDish(req, res);
-    else if (action == 'updateDessert')      updateDessert(req, res);
-    else if (action == 'updateSupplement')   updateSupplement(req, res);
-    else if (action == 'sendBill')           sendBill(req, res);
-}
-
+//instantiate mongoDB connection, and the DB object to be used to transactions in 'connect'...
 let DB;
 MongoClient.connect(url, (err, db) => {
     if (err){
@@ -75,6 +58,25 @@ MongoClient.connect(url, (err, db) => {
     }
 });
 
+// the webhook...
+function backWebhook(req, res) {
+
+    console.log(JSON.stringify(req.body));
+
+    var action = req.body.result.action;
+    uIdentity = req.body.sessionId;
+    uIdentity = "Harshil Kapoor";
+
+    //redirect to appropriate callbacks acc. to the request action...
+    // if (action == 'sendMenu')                sendMenu(req, res);
+    if (action == 'updateStarter')           updateStarter(req, res);
+    else if (action == 'updateDish')         updateDish(req, res);
+    else if (action == 'updateDessert')      updateDessert(req, res);
+    else if (action == 'updateSupplement')   updateSupplement(req, res);
+    else if (action == 'sendBill')           sendBill(req, res);
+}
+
+//wrapper for retrieving order details using 'connect'...
 function retrOrderWrapper(retTarget, data, projection, callback) {
     var config = {
         operation : 'retrieve',
@@ -90,7 +92,8 @@ function retrOrderWrapper(retTarget, data, projection, callback) {
     connect(config, DB, callback);
 }
 
-function retrPriceWrapper(retTarget, data, collection) {
+//wrapper for retrieving price details using 'connect'...
+function retrPriceWrapper(retTarget, data, collection, callback) {
     var config = {
         operation : 'retrieve',
         query : retTarget,
@@ -98,47 +101,12 @@ function retrPriceWrapper(retTarget, data, collection) {
         reqCollection : collection
     };
     // return  connect(config, DB);
-    connect(config, DB);
+    connect(config, DB, callback);
 }
 
-function insertWrapper(retTarget, data) {
-    var config = {
-        operation : 'retrieve',
-        query : retTarget,
-        data : data,
-        collection : 'orders'
-    };
-    return  connect(config, DB);
-}
-
-function updateWrapper(retTarget, data) {
-    var config = {
-        operation : 'retrieve',
-        query : retTarget,
-        data : data,
-        collection : 'order'
-    };
-    return  connect(config, DB);
-}
-
-// //targetCreator for creating json target...
-// function targetCreator(ran, unit, pushups, pullups) {
-//
-//     var targetKeys=[];
-//     if(ran !='')        targetKeys.push('ran');
-//     if(unit !='')       targetKeys.push('unit');
-//     if(pullups !='')    targetKeys.push('pullups');
-//     if(pushups !='')    targetKeys.push('pushups');
-//
-//     var target={};
-//     for(key in targetKeys){
-//         var property = targetKeys[key];
-//         target[property] = eval(property);
-//     }
-//     return target;
-// }
-
-//record update processing callback...
+//wrapper for processing info retrieved using 'retrOrderWrapper', and accordingly use 'connect' to :
+//1)insert, or
+//3)update,
 function recordUpdate(data, collection, callback) {
 
     console.log("Params rec'd @recordUpdate : data = " + JSON.stringify(data) + ", collection = " + collection);
