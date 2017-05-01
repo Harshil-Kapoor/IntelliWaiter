@@ -192,8 +192,8 @@ function recordUpdate(data, collection, callback) {
                 console.log("Property " + data.data.name + " found a document in " + collection + " in 'orders'...");
 
                 flag=1;
-                obj.count += data.data.count;
-                newCount = obj.count;
+                newCount = parseInt(obj.count, 10) + parseInt(data.data.count, 10);
+                obj.count = newCount;
             }
         }
 
