@@ -30,7 +30,19 @@
         <entry file="file://$PROJECT_DIR$/connect.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="327">
-              <caret line="76" column="73" selection-start-line="76" selection-start-column="73" selection-end-line="76" selection-end-column="73" />
+              <caret line="76" column="75" selection-start-line="76" selection-start-column="75" selection-end-line="76" selection-end-column="75" />
+              <folding>
+                <element signature="e#0#44#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="objTest.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/objTest.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="88">
+              <caret line="6" column="25" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
               <folding>
                 <element signature="e#0#44#0" expanded="false" />
               </folding>
@@ -62,6 +74,7 @@
         <option value="$PROJECT_DIR$/mongoTest.js" />
         <option value="$PROJECT_DIR$/test.js" />
         <option value="$PROJECT_DIR$/intelliWaiter.js" />
+        <option value="$PROJECT_DIR$/objTest.js" />
         <option value="$PROJECT_DIR$/connect.js" />
       </list>
     </option>
@@ -140,7 +153,7 @@
       <recent name="C:\Users\Harshil\WebstormProjects\IntelliWaiter" />
     </key>
   </component>
-  <component name="RunManager" selected="Node.js.test.js">
+  <component name="RunManager" selected="Node.js.objTest.js">
     <configuration default="false" name="mongoTest.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="project" path-to-js-file="mongoTest.js" working-dir="$PROJECT_DIR$">
       <method />
     </configuration>
@@ -148,6 +161,9 @@
       <method />
     </configuration>
     <configuration default="false" name="test.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="project" path-to-js-file="test.js" working-dir="$PROJECT_DIR$">
+      <method />
+    </configuration>
+    <configuration default="false" name="objTest.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="project" path-to-js-file="objTest.js" working-dir="$PROJECT_DIR$">
       <method />
     </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
@@ -203,16 +219,18 @@
       <recursive>false</recursive>
       <method />
     </configuration>
-    <list size="3">
+    <list size="4">
       <item index="0" class="java.lang.String" itemvalue="Node.js.mongoTest.js" />
       <item index="1" class="java.lang.String" itemvalue="Node.js.workout.js" />
       <item index="2" class="java.lang.String" itemvalue="Node.js.test.js" />
+      <item index="3" class="java.lang.String" itemvalue="Node.js.objTest.js" />
     </list>
     <recent_temporary>
-      <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="Node.js.test.js" />
-        <item index="1" class="java.lang.String" itemvalue="Node.js.mongoTest.js" />
-        <item index="2" class="java.lang.String" itemvalue="Node.js.workout.js" />
+      <list size="4">
+        <item index="0" class="java.lang.String" itemvalue="Node.js.objTest.js" />
+        <item index="1" class="java.lang.String" itemvalue="Node.js.test.js" />
+        <item index="2" class="java.lang.String" itemvalue="Node.js.mongoTest.js" />
+        <item index="3" class="java.lang.String" itemvalue="Node.js.workout.js" />
       </list>
     </recent_temporary>
   </component>
@@ -250,22 +268,22 @@
       <workItem from="1493526124731" duration="2484000" />
       <workItem from="1493537998447" duration="1536000" />
       <workItem from="1493541919720" duration="25002000" />
-      <workItem from="1493626677542" duration="7915000" />
+      <workItem from="1493626677542" duration="8309000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="127846000" />
+    <option name="totallyTimeSpent" value="128240000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1366" height="768" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3080357" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30729166" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328125" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31423897" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31420374" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32569557" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -300,7 +318,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/README.md" />
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -543,6 +560,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="242">
           <caret line="11" column="45" selection-start-line="11" selection-start-column="45" selection-end-line="11" selection-end-column="45" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -572,6 +590,56 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="437">
           <caret line="20" column="29" selection-start-line="20" selection-start-column="29" selection-end-line="20" selection-end-column="29" />
+          <folding>
+            <marker date="1490612397903" expanded="true" signature="0:44" placeholder="/** Created by Harshil on 27/03/2017. ...*/" />
+            <marker date="1490612397903" expanded="true" signature="741:2444" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="834:2442" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="963:1021" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="1129:1194" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="1252:2310" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="1298:2304" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="1559:1843" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="1581:1732" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="1745:1829" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="1878:2294" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="1953:2047" placeholder="//..." />
+            <marker date="1490612397903" expanded="true" signature="2188:2278" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="2362:2406" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="2474:2574" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="2507:2536" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="2605:3319" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="2679:3265" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="2710:2820" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="2842:3259" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="2895:3223" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="2982:3178" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="3375:3920" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="3389:3626" placeholder="{&quot;url&quot;: 'https://graph.facebook.com/v2.6/me/messages'...}" />
+            <marker date="1490612397903" expanded="true" signature="3539:3620" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="3661:3916" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="3682:3752" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="3783:3851" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="3875:3910" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="3952:4367" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="3966:4112" placeholder="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1490612397903" expanded="true" signature="4155:4363" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="4180:4263" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="4269:4353" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="4393:4531" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="4430:4459" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="4475:4504" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="4655:4920" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="4715:4854" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="4795:4840" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="4860:4918" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="4966:5439" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="4976:5314" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="5137:5233" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="5270:5306" placeholder="{&quot;status&quot;: &quot;ok&quot;...}" />
+            <marker date="1490612397903" expanded="true" signature="5327:5436" placeholder="{...}" />
+            <marker date="1490612397903" expanded="true" signature="5365:5428" placeholder="{&quot;status&quot;: &quot;error&quot;...}" />
+            <marker date="1490612397903" expanded="true" signature="5477:5540" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -717,10 +785,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/objTest.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="6" column="25" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#44#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/connect.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="327">
-          <caret line="76" column="73" selection-start-line="76" selection-start-column="73" selection-end-line="76" selection-end-column="73" />
+          <caret line="76" column="75" selection-start-line="76" selection-start-column="75" selection-end-line="76" selection-end-column="75" />
           <folding>
             <element signature="e#0#44#0" expanded="false" />
           </folding>
