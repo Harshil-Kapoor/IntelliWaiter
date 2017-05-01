@@ -141,6 +141,8 @@ function updateWrapper(retTarget, data) {
 //record update processing callback...
 function recordUpdate(data, collection, callback) {
 
+    console.log("Params rec'd @recordUpdate : data = " + JSON.stringify(data) + ", collection = " + collection);
+
     var err = data.err;
     var insertFlag = data.insert;
 
@@ -197,7 +199,7 @@ function recordUpdate(data, collection, callback) {
 
         if(flag==0){
 
-            console.log("Pushing property " + data.data.name + " into " + collection + " in 'orders'...");
+            console.log("Pushing property " + data.data.name + " into " + JSON.stringify(collection) + " in 'orders'...");
 
             data.result[collection].push({
                 name : data.data.name,
