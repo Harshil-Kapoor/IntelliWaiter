@@ -186,7 +186,7 @@ function recordUpdate(data, collection, callback) {
         var newCount;
 
         var flag=0;
-        for(let obj of data.result[collection]){
+        for(let obj of data.result[0][collection]){
             if(obj.name == data.data.name){
 
                 console.log("Property " + data.data.name + " found a document in " + collection + " in 'orders'...");
@@ -201,16 +201,16 @@ function recordUpdate(data, collection, callback) {
 
             console.log("Pushing property " + data.data.name + " into " + JSON.stringify(collection) + " in 'orders'...");
 
-            data.result[collection].push({
+            data.result[0][collection].push({
                 name : data.data.name,
                 count : data.data.count
             });
-            targetUpd[collection] = data.result[collection];
+            targetUpd[collection] = data.result[0][collection];
             // targetUpd = {
             //     name : data.data.name,
             //     count : data.data.count
             // };
-        }else   targetUpd = data.result;
+        }else   targetUpd = data.result[0];
 
         var updConfig = {
             operation: 'update',
