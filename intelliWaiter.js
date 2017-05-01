@@ -158,8 +158,8 @@ function recordUpdate(data, collection, callback) {
         // targetIns[collection] = data.name;
         // targetIns[collection + 'Count'] = data.count;
         targetIns[collection] = [{
-            name : data.data.name[0],
-            count : data.data.count[0]
+            name : data.data.name,
+            count : data.data.count
         }];
 
         var config = {
