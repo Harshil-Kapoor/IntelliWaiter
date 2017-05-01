@@ -82,6 +82,7 @@ function connect(config, DB, callback) {
                             callback(null, data);
                         }else   callback(null, data);
                     } else if (result[0][collection] == undefined) {
+                        console.log("result[0] : " + result[0] + ", result[0][collection] : " + result[0][collection]);
                         console.log("Empty document retrieved " + JSON.stringify(result) + ", new category to be inserted into order...");
 
                         if (reqCollection = 'orders'){
