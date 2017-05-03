@@ -640,7 +640,7 @@ function updateSupplement(req, res) {
 function sendBill(req, res) {
     var retTarget = {uIdentity: uIdentity, status : 1};
 
-    var data = {bill : 1};
+    var data = {billing : 1};
 
     var projection = {};
     // projection[collection] = 1;
