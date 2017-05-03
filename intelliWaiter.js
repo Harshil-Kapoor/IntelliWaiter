@@ -132,10 +132,10 @@ function orderIterator(order, callback) {
                     result['bill'] = collBill;
                 }
             }
+
+            callback(null, result);
         }
     });
-
-    callback(null, result);
 }
 
 //wrapper for retrieving price details using 'connect'...

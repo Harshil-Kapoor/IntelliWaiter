@@ -29,8 +29,8 @@
       <file leaf-file-name="intelliWaiter.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/intelliWaiter.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="387">
-              <caret line="91" column="37" selection-start-line="91" selection-start-column="37" selection-end-line="91" selection-end-column="37" />
+            <state relative-caret-position="638">
+              <caret line="134" column="0" selection-start-line="134" selection-start-column="0" selection-end-line="134" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -256,12 +256,12 @@
       <workItem from="1493541919720" duration="25002000" />
       <workItem from="1493626677542" duration="13925000" />
       <workItem from="1493647522015" duration="7301000" />
-      <workItem from="1493782733933" duration="8695000" />
+      <workItem from="1493782733933" duration="9532000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="149852000" />
+    <option name="totallyTimeSpent" value="150689000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1366" height="768" extended-state="6" />
@@ -313,12 +313,6 @@
           <url>file://$PROJECT_DIR$/connect.js</url>
           <line>137</line>
           <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/intelliWaiter.js</url>
-          <line>137</line>
-          <properties />
-          <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/intelliWaiter.js</url>
@@ -677,8 +671,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/connect.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="86" column="44" selection-start-line="86" selection-start-column="44" selection-end-line="86" selection-end-column="44" />
+        <state relative-caret-position="396">
+          <caret line="84" column="81" selection-start-line="84" selection-start-column="81" selection-end-line="84" selection-end-column="81" />
           <folding>
             <marker date="1493790348875" expanded="false" signature="0:44" placeholder="/** Created by Harshil on 29-04-2017. ...*/" />
             <marker date="1493790348875" expanded="true" signature="251:6795" placeholder="{...}" />
@@ -712,8 +706,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/intelliWaiter.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="387">
-          <caret line="91" column="37" selection-start-line="91" selection-start-column="37" selection-end-line="91" selection-end-column="37" />
+        <state relative-caret-position="638">
+          <caret line="134" column="0" selection-start-line="134" selection-start-column="0" selection-end-line="134" selection-end-column="0" />
           <folding />
         </state>
       </provider>
