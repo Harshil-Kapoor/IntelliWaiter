@@ -86,10 +86,10 @@ function retrOrderWrapper(retTarget, data, projection, callback) {
 function orderIterator(order, callback) {
     console.log("Entered 'orderIterator'...");
 
-    var starters = order[0].starters;
-    var dishes = order[0].dishes;
-    var desserts = order[0].desserts;
-    var supplements = order[0].supplements;
+    var starters = order.starters;
+    var dishes = order.dishes;
+    var desserts = order.desserts;
+    var supplements = order.supplements;
 
     console.log("Starters in order : " + JSON.stringify(starters));
     console.log("Dishes in order : " + JSON.stringify(dishes));
