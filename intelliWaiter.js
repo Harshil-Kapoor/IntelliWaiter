@@ -82,19 +82,120 @@ function retrOrderWrapper(retTarget, data, projection, callback) {
     connect(config, DB, callback);
 }
 
+//function which iterates through the order, calling 'retrOrderWrapper' for each collection in the order...
+function orderIterator(order, callback) {
+    console.log("Entered 'orderIterator'...");
+
+    var starters = order[0].starters;
+    var dishes = order[0].dishes;
+    var desserts = order[0].desserts;
+    var supplements = order[0].supplements;
+
+    console.log("Starters in order : " + JSON.stringify(starters));
+    console.log("Dishes in order : " + JSON.stringify(dishes));
+    console.log("Desserts in order : " + JSON.stringify(desserts));
+    console.log("Supplements in order : " + JSON.stringify(supplements));
+
+    var data = {};
+    // data['collection'] =
+
+    //generate function array for synchronous exection using 'async'...
+    let itArray =[];
+
+    if(starters != undefined)      itArray.push((call) =>       {retrPriceWrapper(undefined, 'starters', starters, call)});
+    if(dishes != undefined)        itArray.push((data, call) => {retrPriceWrapper(data, 'dishes', dishes, call)});
+    if(desserts != undefined)      itArray.push((data, call) => {retrPriceWrapper(data, 'desserts', desserts, call)});
+    if(supplements != undefined)   itArray.push((data, call) => {retrPriceWrapper(data, 'supplements', supplements, call)});
+
+    async.waterfall(itArray, (err, result) => {
+        if(!err){
+            var collBill = 0;
+
+            if(result != undefined){
+                for (let obj of result.result) {
+
+                    console.log("Record details :  Name : " + obj.name + ", Price : " + obj.price + " & Count : " + obj.count);
+
+                    collBill = collBill + obj.price * obj.count;
+
+                    console.log("Final Iteration bill : " + collBill);
+                }
+
+                if (result.bill != undefined) {
+                    console.log("Billing partially done : Bill : " + result.bill);
+
+                    result.bill = parseInt(result.bill) + collBill;
+                }
+                else {
+                    console.log("Billing started at final iteration...");
+
+                    result['bill'] = collBill;
+                }
+            }
+        }
+    });
+
+    callback(null, result);
+}
+
 //wrapper for retrieving price details using 'connect'...
-function retrPriceWrapper(retTarget, projection, callback) {
+function retrPriceWrapper(data, collName, collection, call) {
+    console.log("Entered 'retrPriceWrapper' with params : data : " + JSON.stringify(data) + ", collName : " + collName + ", and collection : " + JSON.stringify(collection));
+
+    var collBill = 0;
+
+    //processing price details retrieved from collection given by collName
+    if(data != undefined){
+        for (let obj of data.result) {
+
+            console.log("Record details :  Name : " + obj.name + ", Price : " + obj.price + " & Count : " + obj.count);
+
+            collBill = collBill + obj.price * obj.count;
+
+            console.log("Previous Iteration bill : " + collBill);
+        }
+
+        if (data.bill != undefined) {
+            console.log("Billing partially done : Bill : " + data.bill);
+
+            data.bill = parseInt(data.bill) + collBill;
+        }
+        else {
+            console.log("Billing started...");
+
+            data['bill'] = collBill;
+        }
+    }
+
+    //query preparation...
+    var orArray = [];
+    var retTarget;
+
+    for(let obj of collection){
+        orArray.push({name: obj.name})
+    }
+
+    retTarget ={
+        $or : orArray
+    };
+
+    var projection = {};
+    projection["price"] = 1;
+    projection["count"] = 1;
+    projection["_id"] = 0;
+
+    //defining config params for 'connect'...
     var config = {
         operation : 'retrieve',
         query : retTarget,
         projection : projection,
         data : {
             retTarget : retTarget,
-            data : {bill : 1}
+            data : {billing : 1}
         },
-        reqCollection : 'orders'
+        reqCollection : collName
     };
-    connect(config, DB, callback);
+    connect(config, DB, call);
 }
 
 //wrapper for processing info retrieved using 'retrOrderWrapper', and accordingly use 'connect' to :
@@ -174,7 +275,9 @@ function recordUpdate(data, collection, callback) {
             }
         }
 
+        //checking the flag...
         if(flag==0){
+            //Pushing property if the item is not in existing order...
 
             console.log("Pushing property " + data.data.name + " into " + JSON.stringify(collection) + " in 'orders'...");
 
@@ -183,7 +286,11 @@ function recordUpdate(data, collection, callback) {
                 count : data.data.count
             });
             targetUpd[collection] = data.result[0][collection];
-        }else   targetUpd = data.result[0];
+        }else{
+            //forwarding updated record count, when the item already exists in the existing order...
+
+            targetUpd = data.result[0];
+        }
 
         //prepare 'connect' configuration 'config'...
         var updConfig = {
@@ -218,19 +325,39 @@ function fulfillmentGen(data, response) {
     //     response.json(errResp);
     // }else{
 
-    if(data.data.bill != undefined){
+    if(data.data.billing != undefined){
+        console.log("result obtained @billing, FINAL BILL : " + JSON.stringify(data.result.bill));
 
-        console.log("result obtained @billing" + JSON.stringify(data.data.result));
+        //close the bill...
+        console.log("Closing the active order in 'orders'...");
 
-        let fArray =[];
+        var closeQuery = {uIdentity: data.retTarget.uIdentity, status: 1};
+        var targetClose = {status : 0};
 
-        fArray.push((callback) => {retrOrderWrapper(retTarget, data, projection, callback)});
-        fArray.push((data, callback) => {recordUpdate(data, 'desserts', callback)});
+        //prepare 'connect' configuration 'config'...
+        var closeConfig = {
+            operation: 'update',
+            query: closeQuery,
+            projection: targetClose,
+            data: data,
+            reqCollection: 'orders'
+        };
 
-        async.waterfall(fArray, (err, result) => {
-            if(!err)    fulfillmentGen(result, res);
-            else    res.status(500);
+        connect(closeConfig, DB, function (err, result) {
+            if(err == null) console.log("Some error occured when closing order...");
+            else            console.log("Order closed, result obtained : " + JSON.stringify(result));
         });
+
+        //generate the api.ai response, containing the bill details...
+        var bill = data.result.bill;
+        var billResp = {
+            speech: "Your bill is : Rs." + bill + "/- only.",
+            displayText: "Your bill is : Rs." + bill + "/- only.",
+            source: "IntelliWaiter Service @heroku"
+        };
+
+        //send the json formatted response to api.ai...
+        response.json(billResp);
 
     } else {
         var name = data.data.name, count = data.data.count;
@@ -513,13 +640,16 @@ function updateSupplement(req, res) {
 function sendBill(req, res) {
     var retTarget = {uIdentity: uIdentity, status : 1};
 
+    var data = {bill : 1};
+
     var projection = {};
     // projection[collection] = 1;
     projection["_id"] = 0;
 
     let fArray =[];
 
-    fArray.push((callback) => {retrPriceWrapper(retTarget, projection, callback)});
+    fArray.push((callback) => {retrOrderWrapper(retTarget, data, projection, callback)});
+    fArray.push((data, callback) => {orderIterator(data, callback)});
 
     async.waterfall(fArray, (err, result) => {
         if(!err)    fulfillmentGen(result, res);

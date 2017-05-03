@@ -83,12 +83,22 @@ function connect(config, DB, callback) {
                         }else   callback(null, data);
                     } else if (result[0][Object.keys(projection)[0]] == undefined) {
                         console.log("result[0] : " + JSON.stringify(result[0]) + ", result[0][" + Object.keys(projection)[0] + "] : " + result[0][reqCollection]);
-                        console.log("Empty document retrieved " + JSON.stringify(result) + ", new category to be inserted into order...");
 
-                        if (reqCollection = 'orders'){
-                            data['insert_coll'] = 1;
+                        if(data.data.billing != undefined){
+                            console.log('@billing pipeline');
+                            console.log('Retrieved document ' + JSON.stringify(result) + ' from ' + collection + ' collection.');
+
+                            data['result'] = result;
+
                             callback(null, data);
-                        }else   callback(null, data);
+                        }else {
+                            console.log("Empty document retrieved " + JSON.stringify(result) + ", new category to be inserted into order...");
+
+                            if (reqCollection = 'orders') {
+                                data['insert_coll'] = 1;
+                                callback(null, data);
+                            } else   callback(null, data);
+                        }
                     } else {
                             console.log('Retrieved document ' + JSON.stringify(result) + ' from ' + collection + ' collection.');
 
