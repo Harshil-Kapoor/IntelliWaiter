@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f779144e-d3f6-4a8b-b05e-5876ebe6a254" name="Default" comment="testing mongoTest&#10;">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/connect.js" afterPath="$PROJECT_DIR$/connect.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/intelliWaiter.js" afterPath="$PROJECT_DIR$/intelliWaiter.js" />
     </list>
     <ignored path="IntelliWaiter.iws" />
@@ -30,8 +29,8 @@
       <file leaf-file-name="intelliWaiter.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/intelliWaiter.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="343" column="74" selection-start-line="343" selection-start-column="74" selection-end-line="343" selection-end-column="74" />
+            <state relative-caret-position="409">
+              <caret line="367" column="42" selection-start-line="367" selection-start-column="42" selection-end-line="367" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -258,12 +257,12 @@
       <workItem from="1493626677542" duration="13925000" />
       <workItem from="1493647522015" duration="7301000" />
       <workItem from="1493782733933" duration="11182000" />
-      <workItem from="1493869932829" duration="5001000" />
+      <workItem from="1493869932829" duration="5161000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="157340000" />
+    <option name="totallyTimeSpent" value="157500000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1366" height="768" extended-state="6" />
@@ -678,7 +677,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/connect.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
+        <state relative-caret-position="476">
           <caret line="136" column="0" selection-start-line="136" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
           <folding>
             <marker date="1493874687752" expanded="false" signature="0:44" placeholder="/** Created by Harshil on 29-04-2017. ...*/" />
@@ -713,8 +712,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/intelliWaiter.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="343" column="74" selection-start-line="343" selection-start-column="74" selection-end-line="343" selection-end-column="74" />
+        <state relative-caret-position="409">
+          <caret line="367" column="42" selection-start-line="367" selection-start-column="42" selection-end-line="367" selection-end-column="42" />
           <folding />
         </state>
       </provider>

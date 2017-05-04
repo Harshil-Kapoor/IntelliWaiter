@@ -365,7 +365,7 @@ function fulfillmentGen(data, response) {
         //close the bill...
         console.log("Closing the active order in 'orders'...");
 
-        var closeQuery = {uIdentity: data.retTarget.uIdentity, status: 1};
+        var closeQuery = {uIdentity: data.uIdentity, status: 1};
         var targetClose = {status : 0};
 
         //prepare 'connect' configuration 'config'...
@@ -686,7 +686,10 @@ function sendBill(req, res) {
     fArray.push((data, callback) => {orderIterator(data, callback)});
 
     async.waterfall(fArray, (err, result) => {
-        if(!err)    fulfillmentGen(result, res);
+        if(!err){
+            result['uIdentity'] = uIdentity;
+            fulfillmentGen(result, res);
+        }
         else    res.status(500);
     });
 }
