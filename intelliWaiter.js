@@ -127,26 +127,33 @@ function orderIterator(order, callback) {
 
     async.waterfall(itArray, (err, result) => {
         if(!err){
-            var collBill = 0;
+            var collBill = 0, bill = 0;
+            var i = 0;
 
+            //processing price details retrieved from collection given by collName
             if(result != undefined){
                 for (let obj of result.result) {
 
-                    console.log("Record details :  Name : " + obj.name + ", Price : " + obj.price + " & Count : " + obj.count);
+                    var name = result.prevDetails[i].name, count = result.prevDetails[i].count;
 
-                    collBill = collBill + obj.price * obj.count;
+                    console.log("Record details :  Name : " + name + ", Price : " + obj.price + " & Count : " + count);
 
-                    console.log("Final Iteration bill : " + collBill);
+                    collBill = collBill + obj.price * count;
+
+                    console.log("Previous Iteration bill : " + collBill);
+
+                    i++;
                 }
 
-                if (result.bill != undefined) {
+                if (data.bill != undefined) {
                     console.log("Billing partially done : Bill : " + result.bill);
 
-                    result.bill = parseInt(result.bill) + collBill;
+                    result['bill'] = parseInt(result.bill) + collBill;
                 }
                 else {
-                    console.log("Billing started at final iteration...");
+                    console.log("Billing started...");
 
+                    // data['bill'] = collBill;
                     result['bill'] = collBill;
                 }
             }
@@ -375,7 +382,7 @@ function fulfillmentGen(data, response) {
         });
 
         //generate the api.ai response, containing the bill details...
-        var bill = data.result.bill;
+        var bill = data.bill;
         var billResp = {
             speech: "Your bill is : Rs." + bill + "/- only.",
             displayText: "Your bill is : Rs." + bill + "/- only.",
