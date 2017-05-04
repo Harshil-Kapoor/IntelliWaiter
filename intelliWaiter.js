@@ -145,7 +145,7 @@ function orderIterator(order, callback) {
                     i++;
                 }
 
-                if (data.bill != undefined) {
+                if (result.bill != undefined) {
                     console.log("Billing partially done : Bill : " + result.bill);
 
                     result['bill'] = parseInt(result.bill) + collBill;
