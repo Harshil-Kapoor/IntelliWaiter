@@ -15,7 +15,7 @@ MongoClient.connect(url, function (err, db) {
     }else{
         console.log("Successfully connected to database...");
 
-        var collection = db.collection('supplements');
+        var collection = db.collection('starters');
 
 
         // collection.find({}, {"_id":false, "name":true, "price":true}).toArray(function (err, results) {
@@ -23,43 +23,18 @@ MongoClient.connect(url, function (err, db) {
         //     db.close();
         // });
 
-        var cursor = collection.find({}, {"_id":false, "name":true, "price":true});
-        // async.waterfall([
-            cursor.each(function (err, item) {
-                if (err) {
-                    // console.log('______retrieval error______');
-                    console.log(err);
-                } else {
-                    // console.log('Retrieved document '+ result._id +' from "workout" collection.');
-                    if (item != null) {
-                        name = item.name;
-                        price = item.price;
-                    }
-                    // console.log(name+'\n'+price+'\n');
+        var query = {"$or":[{"name":"veg kothey"},{"name":"chilli paneer"}]};
+        var projection = {"price":1,"count":1,"_id":0};
 
-                    //format the generic template / card response, using the documents fetched from the collection ''
-                    console.log(name+'\t'+price);
-                    // menuTarget = menuTarget + name;
-                    menuTarget = menuTarget + name +' : '+price+'\n';
-                    // menuTarget += (name + '\n' + price + '\n');
-                    // console.log(menuTarget);
-                }
-                //
-                //         // console.log(cursor);
-                //         // async.each(cursor, function (item, callback) {
-                //         //     if(item != null)    console.log(item.name+'\n');
-                //         //     // if(item != null)    menuTarget += (item.name + '\n' + item.price+ '\n');
-                //         //     callback();
-                //         // }, function (err) {
-                //         //     if(err) console.log(err);
-                //         //     else    console.log("menuTarget : "+ menuTarget);
-                //         // });
-                //     }, callback(null, menuTarget)),
-                //     printInfo(menuTarget, callback(null))
-                // ], function (err, result) {
-                //     if(err) console.log(err);
-                // });
-            });
+        collection.find(query, projection).toArray((err, result) => {
+            if (err) {
+                console.log('______retrieval error @retrieve______');
+                console.log(err);
+            }else {
+                console.log(JSON.stringify(result));
+            }
+        });
+        // async.waterfall([
         db.close();
 
         // console.log("menuTarget : "+menuTarget);

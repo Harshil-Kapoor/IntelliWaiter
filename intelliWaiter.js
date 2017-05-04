@@ -96,16 +96,34 @@ function orderIterator(order, callback) {
     console.log("Desserts in order : " + JSON.stringify(desserts));
     console.log("Supplements in order : " + JSON.stringify(supplements));
 
-    var data = {};
-    // data['collection'] =
+    var data = undefined;
+
+    var prevDetails = undefined;
+
+    // var strFlag, dishFlag, desFlag, supFlag;
+    // strFlag = dishFlag = desFlag = supFlag = 0;
 
     //generate function array for synchronous exection using 'async'...
     let itArray =[];
 
-    if(starters != undefined)      itArray.push((call) =>       {retrPriceWrapper(undefined, 'starters', starters, call)});
-    if(dishes != undefined)        itArray.push((data, call) => {retrPriceWrapper(data, 'dishes', dishes, call)});
-    if(desserts != undefined)      itArray.push((data, call) => {retrPriceWrapper(data, 'desserts', desserts, call)});
-    if(supplements != undefined)   itArray.push((data, call) => {retrPriceWrapper(data, 'supplements', supplements, call)});
+    if(starters != undefined)      itArray.push((call) =>       {retrPriceWrapper(undefined, 'starters', starters, prevDetails, call)});
+    if(dishes != undefined)        itArray.push((data, call) => {retrPriceWrapper(data, 'dishes', dishes, prevDetails, call)});
+    if(desserts != undefined)      itArray.push((data, call) => {retrPriceWrapper(data, 'desserts', desserts, prevDetails, call)});
+    if(supplements != undefined)   itArray.push((data, call) => {retrPriceWrapper(data, 'supplements', supplements, prevDetails, call)});
+
+    // if(starters != undefined){
+    //     itArray.push((call) =>       {retrPriceWrapper(undefined, 'starters', starters, prevDetails, call)});
+    //     strFlag = 1;
+    // }
+    // if(dishes != undefined){
+    //     if(strFlag == 1){
+    //         itArray.push((data, call) => {retrPriceWrapper(data, 'dishes', dishes, prevDetails, call)});
+    //         dishFlag = 1;
+    //     }else   itArray.push((data, call) => {retrPriceWrapper(data, 'dishes', dishes, prevDetails, call)});
+    // }
+    // if(desserts != undefined)      itArray.push((data, call) => {retrPriceWrapper(data, 'desserts', desserts, prevDetails, call)});
+    // if(supplements != undefined)   itArray.push((data, call) => {retrPriceWrapper(data, 'supplements', supplements, prevDetails, call)});
+
 
     async.waterfall(itArray, (err, result) => {
         if(!err){
@@ -139,33 +157,39 @@ function orderIterator(order, callback) {
 }
 
 //wrapper for retrieving price details using 'connect'...
-function retrPriceWrapper(data, collName, collection, call) {
+function retrPriceWrapper(data, collName, collection, prevDetails, call) {
     console.log("Entered 'retrPriceWrapper' with params : data : " + JSON.stringify(data) + ", collName : " + collName + ", and collection : " + JSON.stringify(collection));
 
-    var collBill = 0;
+    var collBill = 0, bill = 0;
+    var i = 0;
 
     //processing price details retrieved from collection given by collName
     if(data != undefined){
         for (let obj of data.result) {
 
-            console.log("Record details :  Name : " + obj.name + ", Price : " + obj.price + " & Count : " + obj.count);
+            var name = data.prevDetails[i].name, count = data.prevDetails[i].count;
 
-            collBill = collBill + obj.price * obj.count;
+            console.log("Record details :  Name : " + name + ", Price : " + obj.price + " & Count : " + count);
+
+            collBill = collBill + obj.price * count;
 
             console.log("Previous Iteration bill : " + collBill);
+
+            i++;
         }
 
         if (data.bill != undefined) {
             console.log("Billing partially done : Bill : " + data.bill);
 
-            data.bill = parseInt(data.bill) + collBill;
+            bill = parseInt(data.bill) + collBill;
         }
         else {
             console.log("Billing started...");
 
-            data['bill'] = collBill;
+            // data['bill'] = collBill;
+            bill = collBill;
         }
-    }
+    }else   bill = undefined;
 
     //query preparation...
     var orArray = [];
@@ -191,7 +215,9 @@ function retrPriceWrapper(data, collName, collection, call) {
         projection : projection,
         data : {
             retTarget : retTarget,
-            data : {billing : 1}
+            data : {billing : 1},
+            bill : bill,
+            prevDetails : collection
         },
         reqCollection : collName
     };
