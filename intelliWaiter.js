@@ -341,6 +341,7 @@ function recordUpdate(data, collection, callback) {
 //response generation callback...
 // function fulfillmentGen(err, operation, result, response, collection) {
 function fulfillmentGen(data, response) {
+    console.log("Params obtained @fulfillmentGen : " + JSON.stringify(data));
 
     //check if error is generated, or we have the response...
     // if(result == undefined){
@@ -359,7 +360,7 @@ function fulfillmentGen(data, response) {
     // }else{
 
     if(data.data.billing != undefined){
-        console.log("result obtained @billing, FINAL BILL : " + JSON.stringify(data.result.bill));
+        console.log("result obtained @billing, FINAL BILL : " + JSON.stringify(data.bill));
 
         //close the bill...
         console.log("Closing the active order in 'orders'...");

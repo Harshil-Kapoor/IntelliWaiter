@@ -135,7 +135,7 @@ function connect(config, DB, callback) {
 
                             data['result'] = object;
 
-                            callback(null, data, object);
+                            callback(null, data);
                             // //call the fulfillmentGen callback to prepare fulfillment and return response...
                             // if (typeof callback === 'function')  callback(undefined, operation, object, response);
                         }
